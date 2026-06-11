@@ -1,0 +1,707 @@
+---
+title: "Geophys 5432: Potential Field Theory in Geophysics"
+subtitle: "Course Outline and Module Plan — Gravity, Magnetics, and Electromagnetics"
+author: ""
+date: last-modified
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: "Contents"
+    number-sections: true
+    theme: cosmo
+    css: styles.css
+    self-contained: true
+    anchor-sections: true
+---
+
+# Course Overview {.unnumbered}
+
+This course provides a rigorous introduction to potential field theory with applications to gravity, magnetic, and electromagnetic methods in geophysics. The course is organized into **9 modules**: an introductory module covering prerequisites and mathematical foundations, 7 content modules progressing from theory to applied methods (including the focused M6.5 continuation methods module), and a capstone final project module.
+
+## Course Structure {.unnumbered}
+
+The course is designed to be taught in either an **8-week accelerated format** or a **16-week semester format**. The module sequence and content are identical; the difference lies in pacing and depth of in-class exploration.
+
+| Module | Title | 8-Week | 16-Week |
+|:------:|:------|:------:|:-------:|
+| M0 | Foundations: Tools, Math Review, and Course Orientation | Week 1 | Weeks 1–2 |
+| M1 | Potential Fields, Laplace's Equation, and Boundary Value Problems | Week 2 | Weeks 3–4 |
+| M2 | Newtonian Potential and Gravity Fields | Week 3 | Weeks 5–6 |
+| M3 | Magnetic Potential, Magnetization, and the Geomagnetic Field | Week 4 | Weeks 7–8 |
+| M4 | Spherical Harmonic Analysis | Week 5 | Weeks 9–10 |
+| M5 | Forward and Inverse Modeling | Week 6 | Weeks 11–12 |
+| M6 | Fourier Methods, Transformations, and Data Enhancement | Week 7 | Weeks 13–14 |
+| M6.5 | Upward and Downward Continuation Methods | Week 7 (continued) | Weeks 14–15 |
+| M7 | Final Project: Integrated Potential Field Interpretation | Week 8 | Weeks 15–16 |
+
+: Module schedule for 8-week and 16-week formats {#tbl-schedule}
+
+## Course Learning Outcomes {.unnumbered}
+
+Upon successful completion of this course, students will be able to:
+
+- **LO1:** Derive and explain the mathematical foundations of potential field theory, including Laplace's equation, Green's identities, and boundary value problems.
+- **LO2:** Compute the gravitational potential and attraction for idealized mass distributions and apply gravity corrections to produce geologically meaningful anomalies.
+- **LO3:** Derive the magnetic scalar and vector potentials for magnetized bodies and relate magnetic anomalies to source properties through Poisson's relation.
+- **LO4:** **Apply** spherical harmonic analysis to represent and interpret global gravity and magnetic fields.
+- **LO5:** Implement forward and inverse modeling algorithms to interpret gravity and magnetic anomaly data.
+- **LO6:** **Apply** Fourier-domain methods and data transformations (upward continuation, reduction to the pole, analytic signal) to enhance and interpret potential field data.
+- **LO7:** Design and execute an integrated potential field interpretation workflow using Python, combining data processing, modeling, and geologic interpretation.
+- **LO8:** Describe and apply methods for upward and downward continuation to gravity and magnetic field data.
+- **LO9:** Analyze potential field anomalies and model residuals to identify source characteristics, assess data quality, and diagnose sources of model misfit.
+- **LO10:** Evaluate the validity and limitations of potential field interpretations — including the non-uniqueness problem — and justify modeling and processing choices using quantitative criteria and independent geologic constraints.
+
+## Resources {.unnumbered}
+
+**Primary Textbook:** Blakely, R.J. (1995). *Potential Theory in Gravity and Magnetic Applications.* Cambridge University Press.
+
+**Online Course Notes:** Börner, R.-U. (2025/26). *Theory of Potential Field Methods in Geophysics.* <https://ruboerner.github.io/Potential_Theory/>
+
+**GitHub Repository:** <https://github.com/jlmaurer/Potential_Theory> (forked from ruboerner/Potential_Theory)
+
+**Computing:** Python 3.x with NumPy, SciPy, Matplotlib, SymPy; Jupyter notebooks or Quarto.
+
+## Assessment Strategy {.unnumbered}
+
+| Component | Weight |
+|:----------|:------:|
+| Homework problem sets (7 sets) | 25% |
+| Coding labs (8 labs, including Lab 0 and Lab 6.5) | 35% |
+| Final project (report + notebook + presentation) | 30% |
+| Participation and self-assessment reflections | 10% |
+
+: Grading breakdown {#tbl-grading}
+
+
+---
+
+
+# Module 0: Foundations — Tools, Math Review, and Course Orientation
+
+::: {.callout-note appearance="minimal"}
+**8-Week Schedule:** Week 1 | **16-Week Schedule:** Weeks 1–2
+:::
+
+## Module Overview
+
+This introductory module orients students to the course, reviews essential mathematical and computational prerequisites, and sets the stage for the study of potential field theory. Students will refresh their skills in Python programming, linear algebra, and vector calculus—the three pillars that support every subsequent module. The module also introduces the concept of a field and motivates the study of potential fields in geophysics.
+
+## Module Learning Outcomes
+
+Upon completion of this module, students will be able to:
+
+- **Set up** a Python environment for scientific computing with NumPy, SciPy, Matplotlib, and SymPy.
+- **Apply** vector calculus operations (gradient, divergence, curl) in Cartesian and spherical coordinates.
+- **Solve** basic linear algebra problems relevant to geophysical data analysis.
+- **Explain** the importance of potential field methods in geophysics and **outline** the course structure.
+- **Analyze** a given vector field to classify whether it is conservative, solenoidal, or irrotational, and **justify** the classification using calculus identities.
+
+### Course orientation and motivation
+
+- Why potential field theory matters in geophysics
+- History of gravity and magnetic methods (Blakely, Introduction)
+- Course structure, expectations, and the final project
+
+### Coding review: Python and scientific computing
+
+- Jupyter notebooks and Quarto workflows
+- NumPy arrays, SciPy, and Matplotlib
+- Symbolic math with SymPy
+- Website Notes: Prerequisites and Code sections
+
+### Matrix algebra review
+
+- Vectors, matrices, and linear systems
+- Eigenvalues, eigenvectors, and decompositions
+- Least-squares solutions and condition numbers
+
+### Vector calculus review
+
+- Gradient, divergence, curl, and the Laplacian
+- Line, surface, and volume integrals
+- Divergence theorem and Stokes' theorem
+- Coordinate systems: Cartesian, cylindrical, spherical
+- Blakely Appendix A: Review of Vector Calculus
+
+## Readings and Resources
+
+**Textbook Reading:** Blakely: Appendix A (Review of Vector Calculus, pp. 359–368)
+
+**Online Notes:** Website: Prerequisites, Introduction (Ch. 1), Fields (Ch. 2)
+
+## Homework
+
+Problem set on vector calculus identities and coordinate transformations; coding exercises setting up a Python environment and reproducing basic field visualizations.
+
+## Coding Lab
+
+**Lab 0: Python Boot Camp** — Set up the computing environment; write functions for gradient, divergence, and curl in Cartesian and spherical coordinates; visualize simple vector fields using Matplotlib and/or PyVista.
+
+
+---
+
+
+# Module 1: Potential Fields, Laplace's Equation, and Boundary Value Problems
+
+::: {.callout-note appearance="minimal"}
+**8-Week Schedule:** Week 2 | **16-Week Schedule:** Weeks 3–4
+:::
+
+## Module Overview
+
+This module builds the mathematical foundation of the course. Students learn what makes a field a "potential field," derive Laplace's equation, and explore its profound consequences through Green's identities, the Helmholtz theorem, and Green's functions. The module also introduces boundary value problems (Dirichlet, Neumann, Robin) and the uniqueness theorem, which together explain why potential field interpretation is both powerful and inherently nonunique.
+
+## Module Learning Outcomes
+
+Upon completion of this module, students will be able to:
+
+- **Derive** Laplace's equation from the definition of potential fields and explain its physical significance.
+- **Apply** Green's identities and the Helmholtz theorem to decompose vector fields.
+- **Classify** and solve boundary value problems (Dirichlet, Neumann, Robin) for simple geometries.
+- **Explain** the uniqueness theorem and its implications for potential field data interpretation.
+- **Analyze** a potential field problem to identify the appropriate boundary condition type and domain, and determine whether a unique solution exists.
+- **Evaluate** the implications of the uniqueness theorem for geophysical inverse problems, and assess what additional information would be required to constrain an underdetermined interpretation.
+
+### Topics
+
+#### Potential fields and harmonic functions
+
+- Scalar vs. vector fields; conservative and irrotational fields
+- Energy, work, and the potential
+- Equipotential surfaces
+- Laplace's equation and its physical meaning
+- Harmonic functions and the maximum principle
+- Example: steady-state heat flow
+
+#### Consequences of the potential
+
+- Green's first, second, and third identities
+- Gauss's theorem of the arithmetic mean
+- Helmholtz theorem: decomposing fields into irrotational and solenoidal parts
+- Green's functions and analogy with linear systems
+
+#### Boundary value problems
+
+- Dirichlet, Neumann, and Robin problems
+- Domains: interior vs. exterior problems
+- The uniqueness theorem and its implications for geophysical interpretation
+- Worked examples of BVPs in simple geometries
+
+## Readings and Resources
+
+**Textbook Reading:** Blakely: Ch. 1 (The Potential, pp. 1–18) and Ch. 2 (Consequences of the Potential, pp. 19–42)
+
+**Online Notes:** Website: Fields (Ch. 2); BVP Introduction (Ch. 24), Dirichlet (Ch. 25), Neumann (Ch. 26), Robin (Ch. 27), Uniqueness (Ch. 28), Domains (Ch. 29), Examples (Ch. 30), Green's Identities (Ch. 31), Applications (Ch. 32)
+
+## Homework
+
+Selected problems from Blakely Ch. 1 and Ch. 2 problem sets; additional problems on classifying BVPs and verifying Green's identities for simple geometries.
+
+## Coding Lab
+
+**Lab 1: Solving Laplace's Equation Numerically** — Implement a finite-difference solver for Laplace's equation on a 2D grid; explore Dirichlet and Neumann boundary conditions; visualize equipotential surfaces and field lines.
+
+
+---
+
+
+# Module 2: Newtonian Potential and Gravity Fields
+
+::: {.callout-note appearance="minimal"}
+**8-Week Schedule:** Week 3 | **16-Week Schedule:** Weeks 5–6
+:::
+
+## Module Overview
+
+With the mathematical foundations in place, this module applies potential theory to gravity. Students derive the gravitational potential for various mass distributions—from point masses to spherical shells to arbitrary 2D and 3D bodies. Gauss's law and the equivalent layer concept are introduced, along with the practical processing chain that converts raw gravity measurements into geologically meaningful anomalies.
+
+## Module Learning Outcomes
+
+Upon completion of this module, students will be able to:
+
+- **Derive** the gravitational potential and attraction for point masses, spherical bodies, and general mass distributions.
+- **Apply** Newton's shell theorem and use the PREM model to compute gravitational fields inside the Earth.
+- **Use** Gauss's law and the equivalent layer theorem to interpret gravity data.
+- **Apply** gravity corrections (free-air, Bouguer, tidal, Eötvös) to produce geologically meaningful anomalies.
+- **Analyze** a Bouguer anomaly profile or map to identify candidate subsurface density structures and assess their consistency with observed anomaly patterns.
+- **Evaluate** the appropriateness of different gravity corrections for a given survey geometry and geologic setting, and justify which corrections are required.
+
+### Topics
+
+#### Gravitational attraction and potential
+
+- Newton's Universal Law of Gravitation
+- Gravitational potential of a point mass
+- Superposition: potential of mass distributions (line, surface, volume)
+- Key examples: spherical shell, solid sphere, finite wire, circular disc
+
+#### Newton's shell theorem and the PREM model
+
+- Shell theorem derivation and implications
+- The Preliminary Reference Earth Model (PREM)
+- Computing gravitational acceleration inside the Earth
+
+#### Two-dimensional gravity problems
+
+- Potential of an infinite wire and general 2D distributions
+- The logarithmic potential
+
+#### Gauss's law and the equivalent layer
+
+- Gauss's law for gravity fields
+- Green's equivalent layer theorem
+- Excess mass calculation
+
+#### Regional gravity fields and anomalies
+
+- The normal Earth and reference ellipsoid
+- Gravity corrections: free-air, Bouguer, tidal, Eötvös
+- Isostatic residual anomaly
+- Practical example: from raw measurement to anomaly
+
+## Readings and Resources
+
+**Textbook Reading:** Blakely: Ch. 3 (Newtonian Potential, pp. 43–64) and Ch. 7 (Regional Gravity Fields, pp. 128–153)
+
+**Online Notes:** Website: Point Mass (Ch. 3), Mass Distribution (Ch. 4), Newton's Shell Theorem (Ch. 5), PREM (Ch. 6), Sphere Potential and Attraction (Ch. 7), Circular Disc (Ch. 8)
+
+## Homework
+
+Selected problems from Blakely Ch. 3 and Ch. 7 problem sets; compute and plot gravity corrections for a synthetic survey.
+
+## Coding Lab
+
+**Lab 2: Gravity of Simple Bodies** — Compute and visualize the gravitational potential and attraction of spheres, cylinders, and the PREM model using Python; apply Bouguer and free-air corrections to a provided dataset.
+
+
+---
+
+
+# Module 3: Magnetic Potential, Magnetization, and the Geomagnetic Field
+
+::: {.callout-note appearance="minimal"}
+**8-Week Schedule:** Week 4 | **16-Week Schedule:** Weeks 7–8
+:::
+
+## Module Overview
+
+This module extends potential theory to magnetism. Starting from magnetic induction and the Biot-Savart law, students develop the scalar and vector magnetic potentials, the concept of a magnetic dipole, and the properties of magnetized materials. Poisson's relation provides a critical bridge between gravity and magnetic modeling. The module also covers the global geomagnetic field, the IGRF, and how crustal magnetic anomalies are defined and measured.
+
+## Module Learning Outcomes
+
+Upon completion of this module, students will be able to:
+
+- **Derive** the scalar and vector magnetic potentials from Biot-Savart law and Gauss's law.
+- **Explain** magnetization, magnetic dipoles, and Poisson's relation linking magnetic anomalies to source properties.
+- **Describe** the International Geomagnetic Reference Field (IGRF) and **compute** crustal magnetic anomalies.
+- **Apply** corrections to magnetic data for temporal variations and instrument effects.
+- **Analyze** a total-field magnetic anomaly to infer source body properties such as depth, geometry, and magnetization direction, drawing on Poisson's relation.
+- **Evaluate** the relative contributions of induced versus remanent magnetization to a magnetic anomaly and assess the implications for geologic interpretation.
+
+### Topics
+
+#### Magnetic induction and potentials
+
+- Magnetic induction (**B**) and the Lorentz force
+- Gauss's law for magnetic fields (∇ · **B** = 0)
+- Vector potential (**A**) and scalar potential (*V*)
+- The Coulomb gauge
+
+#### The magnetic dipole
+
+- Dipole moment: derivation from current loops and from monopole pairs
+- Dipole field structure and equations
+- Electrical vs. magnetic dipoles
+- Dipole field lines
+
+#### Magnetization
+
+- Distributions of magnetization
+- Alternative models: volume charges, surface charges, surface currents
+- Magnetic field intensity (**H**), permeability (μ), and susceptibility (χ)
+- Induced vs. remanent magnetization; the Koenigsberger ratio
+- Poisson's relation: connecting gravity and magnetic fields
+- Two-dimensional magnetization distributions
+- Annihilators
+
+#### The geomagnetic field
+
+- Internal vs. external field separation (Gauss's analysis)
+- Elements of the geomagnetic field (*I*, *D*, *H*, *Z*, *F*)
+- The IGRF and dipole/nondipole components
+- Secular variation and westward drift
+- Crustal magnetic anomalies and total-field anomalies
+
+## Readings and Resources
+
+**Textbook Reading:** Blakely: Ch. 4 (Magnetic Potential, pp. 65–80), Ch. 5 (Magnetization, pp. 81–99), and Ch. 8 (The Geomagnetic Field, pp. 154–181)
+
+**Online Notes:** Website: Electrical Dipole (Ch. 16), Magnetic Dipole (Ch. 17), Dipole Field Lines (Ch. 18), IGRF (Ch. 23)
+
+## Homework
+
+Selected problems from Blakely Ch. 4, Ch. 5, and Ch. 8 problem sets; compute the IGRF field at specified locations using provided coefficients.
+
+## Coding Lab
+
+**Lab 3: Dipole Fields and the IGRF** — Compute and visualize magnetic dipole fields; use the pyIGRF or IGRF coefficients to compute and map the global geomagnetic field; explore the relationship between inclination, declination, and latitude.
+
+
+---
+
+
+# Module 4: Spherical Harmonic Analysis
+
+::: {.callout-note appearance="minimal"}
+**8-Week Schedule:** Week 5 | **16-Week Schedule:** Weeks 9–10
+:::
+
+## Module Overview
+
+Many geophysical fields are naturally described on a sphere. This module develops spherical harmonic analysis—the mathematical language for representing global gravity and magnetic fields. Students learn Legendre polynomials, associated Legendre functions, and how to solve Laplace's equation in spherical coordinates. These tools are then applied to understand the spectral content of the Earth's gravity and magnetic fields.
+
+## Module Learning Outcomes
+
+Upon completion of this module, students will be able to:
+
+- **Derive** and compute Legendre polynomials and associated Legendre functions.
+- **Apply** spherical harmonic expansions to represent global gravity and magnetic fields.
+- **Solve** Laplace's equation in spherical coordinates using separation of variables.
+- **Interpret** the spectral content of geophysical fields using harmonic coefficients.
+- **Analyze** the spherical harmonic power spectrum of the gravity or magnetic field to identify dominant sources and characterize the depths of contributing structures.
+- **Evaluate** the trade-offs involved in truncating a spherical harmonic expansion, assessing the effect of truncation degree on spatial resolution and spectral leakage.
+
+### Topics
+
+#### Zonal harmonics and Legendre polynomials
+
+- Motivation: expanding functions on a sphere
+- Legendre polynomials: definition, generating function, orthogonality
+- Rodrigues' formula and recurrence relations
+- Numerical computation of Legendre polynomials
+
+#### Surface harmonics
+
+- Associated Legendre functions
+- Normalized functions (Schmidt semi-normalized, fully normalized)
+- Tesseral and sectoral harmonics
+- Visualization of harmonic patterns on the sphere
+
+#### Application to Laplace's equation in spherical coordinates
+
+- Separation of variables in spherical coordinates
+- Homogeneous functions and Euler's equation
+- Point source away from the origin (addition theorem)
+- General spherical harmonic expansion
+- Connection to gravity (geoid) and magnetic (IGRF) field representations
+
+## Readings and Resources
+
+**Textbook Reading:** Blakely: Ch. 6 (Spherical Harmonic Analysis, pp. 100–127)
+
+**Online Notes:** Website: Introduction to Spherical Harmonic Analysis (Ch. 19), Legendre Polynomials (Ch. 20), Numerical Computation of Legendre Polynomials (Ch. 21), Solution of Laplace's Equation in Spherical Coordinates (Ch. 22)
+
+## Homework
+
+Selected problems from Blakely Ch. 6 problem set; exercises on computing and visualizing spherical harmonic coefficients.
+
+## Coding Lab
+
+**Lab 4: Spherical Harmonics** — Compute and plot Legendre polynomials and surface harmonics; decompose a synthetic field on the sphere into spherical harmonic coefficients; reconstruct truncated expansions and explore spectral leakage.
+
+
+---
+
+
+# Module 5: Forward and Inverse Modeling
+
+::: {.callout-note appearance="minimal"}
+**8-Week Schedule:** Week 6 | **16-Week Schedule:** Weeks 11–12
+:::
+
+## Module Overview
+
+This module covers the two primary approaches to interpreting potential field data. Forward modeling computes the predicted anomaly from an assumed source geometry and physical properties, iterating until a satisfactory fit is achieved. Inverse modeling directly estimates source parameters from the observed anomaly. Students implement classic algorithms (Talwani 2D polygonal bodies, 3D prisms) and explore both linear and nonlinear inverse techniques, including depth estimation methods.
+
+## Module Learning Outcomes
+
+Upon completion of this module, students will be able to:
+
+- ç forward modeling algorithms for gravity and magnetic anomalies using prisms, polygons, and other geometries.
+- **Apply** linear and nonlinear inverse methods to estimate source parameters from anomaly data.
+- **Use** depth-to-source techniques like Euler and Werner deconvolution.
+- **Evaluate** the nonuniqueness of potential field interpretations and incorporate independent constraints.
+- **Analyze** residuals between observed and modeled anomalies to diagnose sources of misfit and guide iterative model refinement.
+- **Evaluate** competing geologic models for an observed anomaly using quantitative misfit metrics and independent constraints, and justify a preferred interpretation.
+- **Create** a parameterized forward model that reproduces an observed gravity or magnetic anomaly, iteratively refining it by integrating misfit assessment with geologic reasoning.
+
+### Topics
+
+#### Forward method: gravity models
+
+- Three-dimensional models: point mass, sphere, vertical cylinder, rectangular prism
+- Two-dimensional models: the Talwani method for polygonal cross-sections
+- 2.5-dimensional models
+
+#### Forward method: magnetic models
+
+- Model representations: volume magnetization, surface charge, surface currents, Poisson's relation
+- 3D examples: dipoles, rectangular prisms, polygonal facets
+- 2D examples: line of dipoles, thin sheets, polygonal cross-sections
+- Implementation of Talwani-type magnetic calculations
+
+#### Inverse method: linear problems
+
+- The general inverse problem framework
+- Matrix inversion and the gram matrix
+- Magnetization of a layer
+- Determination of magnetization direction
+
+#### Inverse method: nonlinear problems
+
+- Shape of source estimation
+- Depth-to-source methods: Euler deconvolution, Werner deconvolution, spectral methods
+- Ideal bodies and bounding constraints
+- Nonuniqueness and the role of independent information
+
+## Readings and Resources
+
+**Textbook Reading:** Blakely: Ch. 9 (Forward Method, pp. 182–213) and Ch. 10 (Inverse Method, pp. 214–257)
+
+**Online Notes:** Website: 2-D Mass Distributions (Ch. 9), Gravitational Attraction of a Prism / Talwani (Ch. 10), Talwani Implementation (Ch. 11), 3D Problems (Ch. 15)
+
+## Homework
+
+Selected problems from Blakely Ch. 9 and Ch. 10 problem sets; forward-model a geologic cross section and compare with observed data.
+
+## Coding Lab
+
+**Lab 5: Talwani Forward Modeling and Inversion** — Implement the Talwani 2D forward algorithm in Python; model a synthetic geologic structure; set up and solve a simple linear inverse problem to recover density or magnetization from observed data.
+
+
+---
+
+
+# Module 6: Fourier Methods, Transformations, and Data Enhancement
+
+::: {.callout-note appearance="minimal"}
+**8-Week Schedule:** Week 7 | **16-Week Schedule:** Weeks 13–14
+:::
+
+## Module Overview
+
+The final content module brings the tools of Fourier analysis to potential field interpretation. Students learn how gravity and magnetic anomalies behave in the wavenumber domain, how "earth filters" relate source distributions to observed fields, and how transformations—upward continuation, reduction to the pole, pseudogravity, analytic signal, and horizontal gradients—can enhance data for geologic interpretation.
+
+## Module Learning Outcomes
+
+Upon completion of this module, students will be able to:
+
+- **Apply** Fourier transforms to analyze potential field data in the wavenumber domain.
+- **Implement** data enhancement techniques such as upward continuation, reduction to the pole, and analytic signal.
+- **Use** earth filters to relate source properties to observed anomalies.
+- **Interpret** spectral content to estimate source depth and geometry.
+- **Analyze** the power spectrum of a potential field dataset to estimate source depth and identify dominant wavelength components.
+- **Evaluate** the suitability of different enhancement techniques (upward continuation, reduction to the pole, analytic signal, horizontal gradient) for a specific geologic interpretation goal, and justify the chosen processing sequence.
+- **Create** a Fourier-domain processing workflow to isolate a target anomaly from regional background and noise in a real or synthetic dataset.
+
+### Topics
+
+#### Fourier-domain modeling
+
+- Review of Fourier transforms and their properties
+- Discrete Fourier transform and sampling considerations
+- Convolution theorem
+- Fourier transforms of simple anomalies (monopole, dipole, line sources)
+- Earth filters: relating source to observed field
+- Topographic and general source models in the wavenumber domain
+- Depth and shape of source from power spectra
+
+### Transformations and data enhancement
+
+- Upward and downward continuation
+- Directional derivatives (vertical, horizontal gradients)
+- Phase transformations: reduction to the pole
+- Calculation of vector components from total-field data
+- Pseudogravity and pseudomagnetic transformations
+- Horizontal gradients and boundary analysis; terracing
+- The analytic signal and Hilbert transforms
+
+#### Complex analysis connections
+
+- Introduction to complex analysis for 2D potential problems
+- Hilbert transform: theory and implementation
+- Relationship between analytic signal and source geometry
+
+## Readings and Resources
+
+**Textbook Reading:** Blakely: Ch. 11 (Fourier-Domain Modeling, pp. 258–310) and Ch. 12 (Transformations, pp. 311–358)
+
+**Online Notes:** Website: Introduction to Complex Analysis (Ch. 12), Hilbert Transform (Ch. 13), Implementation of the Hilbert Transform (Ch. 14)
+
+## Homework
+
+Selected problems from Blakely Ch. 11 and Ch. 12 problem sets; apply upward continuation and reduction to the pole to a gridded magnetic dataset.
+
+## Coding Lab
+
+**Lab 6: Fourier Filtering and Transformations** — Apply FFT-based upward continuation, reduction to the pole, and horizontal gradient calculations to gridded magnetic anomaly data; estimate depth to source using spectral methods; compare results with forward model predictions.
+
+
+---
+
+
+# Module 6.5: Upward and Downward Continuation Methods
+
+::: {.callout-note appearance="minimal"}
+**8-Week Schedule:** Week 7 (continued) | **16-Week Schedule:** Weeks 14–15
+:::
+
+## Module Overview
+
+Building on Fourier methods, this module focuses specifically on continuation techniques for extrapolating potential field data to different elevations. Students learn the mathematical foundations of upward and downward continuation, their practical applications in data processing, and limitations due to noise amplification in downward continuation.
+
+## Module Learning Outcomes
+
+Upon completion of this module, students will be able to:
+
+- **Explain** the principles of upward and downward continuation in the wavenumber domain.
+- **Implement** continuation algorithms using Fourier transforms.
+- **Apply** continuation to enhance or suppress shallow sources in potential field data.
+- **Evaluate** the stability and noise sensitivity of downward continuation.
+- **Analyze** the effects of downward continuation at varying depths to characterize signal-to-noise behavior and identify the optimal continuation level for a given dataset.
+- **Evaluate** the trade-off between enhanced resolution and noise amplification in downward continuation, and justify a regularization or depth-limit strategy.
+
+## Topics
+
+#### Continuation theory
+
+- Upward continuation: filtering high wavenumbers to extrapolate data upward
+- Downward continuation: amplifying high wavenumbers for downward extrapolation
+- Mathematical derivation using Fourier transforms
+- Stability considerations and noise amplification
+
+#### Practical applications
+
+- Separating regional and residual anomalies
+- Enhancing deep vs. shallow sources
+- Data leveling and merging surveys at different elevations
+
+## Readings and Resources
+
+**Textbook Reading:** Blakely: Ch. 12 (Transformations, pp. 311–358), focusing on continuation sections
+
+**Online Notes:** Website: Fourier-Domain Modeling (Ch. 11), Transformations (Ch. 12)
+
+## Homework
+
+Problems on continuation mathematics and application to synthetic data.
+
+## Coding Lab
+
+**Lab 6.5: Continuation Techniques** — Implement upward and downward continuation on gridded data; explore noise effects in downward continuation; apply to separate regional/residual components.
+
+
+---
+
+
+# Module 7: Final Project — Integrated Potential Field Interpretation
+
+::: {.callout-note appearance="minimal"}
+**8-Week Schedule:** Week 8 | **16-Week Schedule:** Weeks 15–16
+:::
+
+## Module Overview
+
+In this capstone module, students apply the full suite of skills developed throughout the course to an integrated interpretation project. Each student (or team) selects a real-world gravity and/or magnetic dataset, processes the data, applies appropriate forward and inverse modeling and enhancement techniques, and presents a geologically interpreted result. The project demonstrates mastery of the course learning outcomes through authentic, research-level work.
+
+## Module Learning Outcomes
+
+Upon completion of this module, students will be able to:
+
+- **Design** and execute an integrated potential field interpretation workflow using Python.
+- **Combine** data processing, modeling, and enhancement techniques for geologic interpretation.
+- **Communicate** results through written reports and presentations.
+- **Apply** course concepts to real-world geophysical problems.
+- **Analyze** a real-world potential field dataset to characterize its quality, identify dominant anomaly patterns, and formulate testable geologic hypotheses.
+- **Evaluate** peer interpretations through structured review, assessing the validity of modeling choices, adequacy of constraints, and the support provided for geologic conclusions.
+
+## Project Components
+
+The final project consists of four structured components with feedback at each stage:
+
+1. **Proposal**: Outline the dataset, research question, and planned methods. Due at end of Module 3 (Week 4 in 8-week; Week 8 in 16-week). Feedback: instructor rubric with comments on feasibility and scope.
+
+2. **Preliminary Report**: Initial analysis including data processing and basic modeling. Due at end of Module 5 (Week 6 in 8-week; Week 12 in 16-week). Feedback: instructor rubric and peer review comments.
+
+3. **Presentation**: Oral or recorded presentation (15–20 minutes) of results. Due at end of Module 6 (Week 7 in 8-week; Week 14 in 16-week). Feedback: instructor rubric and peer reviews via Canvas rubrics, contributing to participation grade.
+
+4. **Final Report**: Complete written report (structured as short research paper) with Jupyter notebook. Due at end of Module 7. Feedback: instructor rubric and peer reviews via Canvas rubrics.
+
+Peer reviews for presentation and final report will use structured rubrics in Canvas, evaluating content, clarity, and technical accuracy. These reviews contribute to the participation grade.
+
+## Project Requirements
+
+- Data acquisition and quality assessment
+- Correction and reduction to anomaly
+- Application of at least two enhancement/transformation techniques
+- Forward and/or inverse modeling of identified anomaly sources
+- Geologic interpretation supported by independent information
+
+## Deliverables
+
+- Written report (structured as a short research paper)
+- Jupyter notebook with reproducible analysis and well-documented code
+- Oral or recorded presentation (15–20 minutes)
+
+## Milestones (16-week format)
+
+- **Week 8:** Proposal due
+- **Week 12:** Preliminary report due
+- **Week 14:** Presentation due
+- **Week 16:** Final report and notebook due
+
+## Milestones (8-week format)
+
+- **Week 4:** Proposal due
+- **Week 6:** Preliminary report due
+- **Week 7:** Presentation due
+- **Week 8:** Final report and notebook due
+
+## Readings and Resources
+
+**Textbook Reading:** Blakely: Appendix B (Subroutines) and Appendix C (Review of Sampling Theory) as reference
+
+**Online Notes:** All website notes as reference material
+
+## Homework
+
+No separate homework; all effort directed toward the final project.
+
+## Coding Lab
+
+The final project serves as the culminating lab experience. Students integrate multiple computational techniques from prior labs into a cohesive analysis pipeline.
+
+
+---
+
+
+# Cross-Reference: Blakely Chapters ↔ Website Notes ↔ Modules {.unnumbered}
+
+This table maps the primary textbook chapters and online course note sections to course modules for easy reference.
+
+| Blakely Chapter(s) | Website Notes (Börner) | Module |
+|:--------------------|:-----------------------|:------:|
+| Introduction; Appendix A (Vector Calculus) | Prerequisites; Ch. 1–2 | M0 |
+| Ch. 1 (The Potential); Ch. 2 (Consequences) | Ch. 2; Ch. 24–32 (BVPs) | M1 |
+| Ch. 3 (Newtonian Potential); Ch. 7 (Regional Gravity) | Ch. 3–8 (Newton potential) | M2 |
+| Ch. 4 (Magnetic Potential); Ch. 5 (Magnetization); Ch. 8 (Geomagnetic Field) | Ch. 16–18 (Dipoles); Ch. 23 (IGRF) | M3 |
+| Ch. 6 (Spherical Harmonic Analysis) | Ch. 19–22 (Spherical Harmonics) | M4 |
+| Ch. 9 (Forward Method); Ch. 10 (Inverse Method) | Ch. 9–11 (2D problems); Ch. 15 (3D) | M5 |
+| Ch. 11 (Fourier-Domain); Ch. 12 (Transformations) | Ch. 12–14 (Complex, Hilbert) | M6 |
+| Appendices B–C (reference) | All (reference) | M7 |
+
+: Blakely–Website–Module cross-reference {#tbl-crossref}
+
+
+---

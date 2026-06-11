@@ -8,9 +8,6 @@ Course materials for **Geophys 5432**, including Python lab notebooks and homewo
 |---|---|
 | `labs/M*/` | Jupyter lab notebooks (one per module) |
 | `homeworks/M*/` | Homework assignments in Quarto (`.qmd`) and compiled PDF |
-| `datasets/M*/` | Data files used by the labs |
-| `projects/` | Final project description and starter notebook |
-| `Geophys5432_Syllabus.qmd` | Course syllabus source |
 | `Geophys5432_Course_Outline.qmd` | Week-by-week course outline source |
 
 ## Modules

@@ -5,6 +5,10 @@ presentations/
 **/*_solutions/
 HOMEWORK_ASSESSMENT_GUIDE.md
 generate_powerpoints*.py
+projects/
+datasets/
+Geophys5432_Syllabus.pdf
+Geophys5432_Syllabus.qmd
 
 # ── Internal / admin ─────────────────────────────────────────────────────────
 claude-project.yaml
@@ -25,6 +29,7 @@ _freeze/
 __pycache__/
 *.py[cod]
 *.pyo
+styles.css
 
 # ── Jupyter ──────────────────────────────────────────────────────────────────
 .ipynb_checkpoints/

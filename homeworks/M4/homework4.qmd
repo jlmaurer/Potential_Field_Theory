@@ -1,0 +1,50 @@
+# Homework 4: Spherical Harmonic Analysis
+
+This homework covers material from **Module 4: Spherical Harmonic Analysis** and aligns with learning outcomes **LO4, LO6**.
+
+**Related Resources:**
+- Lectures: M4 lecture notes (Spherical Harmonics, Legendre Functions)
+- Lab: Lab 4 (Spherical Harmonics) — *Essential for Python implementation of Problems 4.1, 4.2, 4.4*
+- Textbook: Blakely Ch. 6
+- Python libraries: scipy.special (Legendre functions)
+
+## Problems
+
+1. **Problem 4.1** (Blakely Ch. 6, Problem 1) — *Computational/Easy*
+   - Compute the first five Legendre polynomials $P_n(\cos\theta)$ for $\theta = 0°, 30°, 60°, 90°$. Plot their behavior.
+   - **Cross-reference:** Lab 4, Part 1; M4 lecture notes, Section "Legendre Polynomials"
+   - **Difficulty:** Easy (direct calculation; visualization)
+   - **Tip:** Use scipy.special.legendre or compute from recurrence relation; plot all on same figure
+
+2. **Problem 4.2** (Blakely Ch. 6, Problem 3) — *Derivation/Moderate*
+   - Show how spherical harmonics are used to represent the gravitational potential of the Earth. Derive the general form.
+   - **Cross-reference:** Lab 4, Part 2; M4 lecture notes, Section "Application to Laplace's Equation"; M2/lecture notes (gravity analogy)
+   - **Difficulty:** Moderate (requires separation of variables; connection to geophysics)
+   - **Tip:** Start with Laplace's equation in spherical coords; assume product form $\Phi(r,\theta,\phi) = R(r)\Theta(\theta)\Phi(\phi)$; show Earth potential expansion
+
+3. **Problem 4.3** (Blakely Ch. 6, Problem 5) — *Derivation/Moderate*
+   - Solve Laplace's equation in spherical coordinates using separation of variables. Obtain the general solution.
+   - **Cross-reference:** M4 lecture notes, Section "Separation of Variables"; M1/lecture1_notes.qmd (spherical Laplacian)
+   - **Difficulty:** Moderate (comprehensive derivation; three ODEs)
+   - **Tip:** Separate into radial and angular parts; relate angular part to Legendre equation; write general solution as sum over n, m
+
+4. **Problem 4.4** (Blakely Ch. 6, Problem 7) — *Visualization/Moderate*
+   - Visualize the spherical harmonic $Y_2^1(\theta, \phi)$. Describe its pattern on the sphere.
+   - **Cross-reference:** Lab 4, Part 3 (visualization code); M4 lecture notes, Section "Surface Harmonics"
+   - **Difficulty:** Moderate (code/visualization; conceptual description)
+   - **Tip:** Plot on sphere (e.g., using matplotlib mplot3d or PyVista); describe nodal lines and lobe patterns
+
+5. **Problem 4.5** — *Conceptual/Challenging*
+   - Explain how spherical harmonic coefficients relate to the spectral content of geophysical fields. What do low-degree vs high-degree harmonics represent?
+   - **Cross-reference:** Lab 4, Part 2; M6 lecture notes (spectral analysis); M4 lecture notes, Section "Application"
+   - **Difficulty:** Challenging (requires synthesis of theory and applications)
+   - **Tip:** Relate low-n to long-wavelength (deep sources); high-n to short-wavelength (shallow sources); discuss resolution limits
+
+## Submission Guidelines
+
+- Submit solutions as a PDF or Quarto document (or Jupyter notebook)
+- Include derivations, calculations, plots showing convergence behavior
+- Use proper mathematical notation for harmonics and functional forms
+- Include visualization outputs (e.g., plots of Legendre functions, sphere plots)
+- Interpret results physically (connection to geophysical sources)
+- Expected length/complexity: equivalent to 5–8 pages of narrative + figures

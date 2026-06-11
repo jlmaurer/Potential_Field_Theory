@@ -1,0 +1,52 @@
+# Homework 1: Potential Fields and Boundary Value Problems
+
+This homework covers material from **Module 1: Potential Fields, Laplace's Equation, and Boundary Value Problems** and aligns with learning outcomes **LO1**.
+
+**Related Resources:**
+- Lectures: M1/lecture1_notes.qmd (Potential Fields and Laplace's Equation), M1/lecture2_notes.qmd (Green's Identities)
+- Lab: Lab 1 (Solving Laplace's Equation Numerically)
+- Textbook: Blakely Ch. 1–2
+
+## Problems
+
+1. **Problem 1.1** (Blakely Ch. 1, Problem 1) — *Foundation/Moderate*
+   - Show that for a conservative field, the work done around a closed path is zero. Derive this from the definition of a potential.
+   - **Cross-reference:** M1/lecture1_notes.qmd, Section "What is a Potential Field?"
+   - **Difficulty:** Moderate (requires calculus and path integration)
+   - **Tip:** Start with line integral definition of work; use the gradient theorem
+
+2. **Problem 1.2** (Blakely Ch. 2, Problem 3) — *Conceptual/Moderate*
+   - Verify Green's second identity for two functions u = r and v = 1/r in a spherical volume. What does this tell us about the behavior of harmonic functions?
+   - **Cross-reference:** M1/lecture2_notes.qmd, Section "Green's Identities"
+   - **Difficulty:** Moderate (requires vector calculus and spherical coordinates)
+   - **Tip:** Recall that 1/r is harmonic (∇²(1/r) = 0) and r is not
+
+3. **Problem 1.3** (Blakely Ch. 2, Problem 5) — *Classification/Moderate*
+   - Classify the following boundary value problems and determine if they have unique solutions:
+     - Dirichlet problem: φ = f on boundary, ∇²φ = 0 inside
+     - Neumann problem: ∂φ/∂n = g on boundary, ∇²φ = 0 inside
+     - Robin problem: ∂φ/∂n + hφ = g on boundary, ∇²φ = 0 inside
+   - **Cross-reference:** M1/lecture2_notes.qmd, Section "Green's Identities and Boundary Value Problems"
+   - **Difficulty:** Moderate (classification and uniqueness analysis)
+   - **Tip:** Use Green's identities to prove uniqueness; note that Neumann has solution unique up to constant
+
+4. **Problem 1.4** (Blakely Ch. 1, Problem 2) — *Proof/Moderate*
+   - Prove that harmonic functions satisfy the maximum principle. What are the implications for potential field interpretation?
+   - **Cross-reference:** M1/lecture1_notes.qmd, Section "Harmonic Functions"; Lab 1 (numerical verification)
+   - **Difficulty:** Moderate (proof technique; conceptual application)
+   - **Tip:** Start with Gauss's mean value theorem; apply to contradiction argument
+
+5. **Problem 1.5** — *Conceptual/Challenging*
+   - Explain why potential field data interpretation is inherently nonunique. Use Green's identities to illustrate your point.
+   - **Cross-reference:** M1/lecture2_notes.qmd, Section "Geophysical Implications"; Final Project (application)
+   - **Difficulty:** Challenging (requires synthesis and conceptual depth)
+   - **Tip:** Consider multiple source distributions producing same boundary data; relate to Green's theorem volume-to-surface transformation
+
+## Submission Guidelines
+
+- Submit solutions as a PDF or Quarto document
+- Include derivations, calculations, and explanations
+- Use LaTeX for mathematical expressions
+- Feel free to include sketches or diagrams
+- Cite references (e.g., Blakely, lecture notes) where appropriate
+- Expected length: 3–5 pages

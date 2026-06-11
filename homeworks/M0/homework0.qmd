@@ -1,0 +1,300 @@
+---
+title: "Homework 0 — Mathematical Foundations"
+subtitle: "Geophys 5432: Potential Field Theory in Geophysics"
+author: "Module 0: Tools, Math Review, and Course Orientation"
+format:
+  pdf:
+    toc: false
+    number-sections: false
+---
+
+# Instructions
+
+This problem set reviews the vector calculus and matrix algebra that underpin
+the rest of the course (Lecture 3). Work the problems by hand; you may verify
+your answers numerically in Python afterward. Show all steps — in this course
+the derivation matters as much as the final number.
+
+Throughout, vectors are columns written in bold lowercase ($\mathbf{v}$) and
+matrices are uppercase ($A$). The "del" operator is
+$\nabla = (\partial_x, \partial_y, \partial_z)$.
+
+---
+
+# Part I — Problems
+
+## Problem 1 — Vector differential operators (Cartesian)
+
+Let the scalar field $f$ and vector field $\mathbf{F}$ be
+
+$$
+f(x,y,z) = x^2 y + y z^2,
+\qquad
+\mathbf{F}(x,y,z) = (xy,\; yz,\; zx).
+$$
+
+(a) Compute the gradient $\nabla f$.
+(b) Compute the divergence $\nabla \cdot \mathbf{F}$.
+(c) Compute the curl $\nabla \times \mathbf{F}$.
+(d) Compute the Laplacian $\nabla^2 f$.
+
+## Problem 2 — Conservative, solenoidal, and finding a potential
+
+Consider the vector field
+
+$$
+\mathbf{F}(x,y,z) = \big(2xy + z^3,\; x^2,\; 3xz^2\big).
+$$
+
+(a) Show that $\mathbf{F}$ is **irrotational** ($\nabla \times \mathbf{F} = \mathbf{0}$).
+(b) Is $\mathbf{F}$ **solenoidal** ($\nabla \cdot \mathbf{F} = 0$)? Explain.
+(c) Because $\mathbf{F}$ is irrotational, a scalar potential exists. Find a
+function $\phi$ such that $\mathbf{F} = \nabla \phi$.
+(d) In geophysics the gravitational field is written $\mathbf{g} = -\nabla V$.
+Briefly state which of the three properties (conservative / solenoidal /
+irrotational) the gravity field $\mathbf{g}$ has **outside** of mass, and why.
+
+## Problem 3 — The divergence theorem
+
+Verify the divergence theorem,
+
+$$
+\int_V \nabla \cdot \mathbf{F}\, dV = \oint_S \mathbf{F}\cdot \hat{\mathbf{n}}\, dS,
+$$
+
+explicitly for the **radial field** $\mathbf{F} = (x, y, z)$ over a solid ball
+of radius $a$ centered at the origin, by computing each side separately and
+showing they agree. Comment on how this result connects to Gauss's law for
+gravity.
+
+## Problem 4 — Harmonic functions and the spherical Laplacian
+
+For a function that depends only on the radius $r$, the spherical Laplacian
+reduces to
+
+$$
+\nabla^2 \phi = \frac{1}{r^2}\frac{d}{dr}\!\left(r^2 \frac{d\phi}{dr}\right).
+$$
+
+(a) Show that $\phi(r) = 1/r$ is **harmonic** ($\nabla^2 \phi = 0$) for all
+$r > 0$. Why is this result central to gravity and magnetics?
+(b) Find the **most general** spherically symmetric harmonic function by
+solving $\nabla^2 \phi(r) = 0$. (Your answer should contain two arbitrary
+constants.)
+
+## Problem 5 — Vectors, norms, and projection (the total-field anomaly)
+
+A total-field magnetometer does not measure the full anomalous vector field;
+it measures the **projection** of that vector onto the direction of the ambient
+main field. Work in a North–East–Down (NED) frame. Take the main-field
+direction to have inclination $I = 60^\circ$ and declination $D = 0^\circ$, so
+its unit vector is
+
+$$
+\hat{\mathbf{b}} = (\cos I \cos D,\; \cos I \sin D,\; \sin I).
+$$
+
+The anomalous field at a station is $\Delta\mathbf{B} = (10,\; 5,\; 20)$ nT.
+
+(a) Write out $\hat{\mathbf{b}}$ numerically and confirm it is a unit vector.
+(b) Compute the magnitude $\lVert \Delta\mathbf{B} \rVert$.
+(c) Compute the **total-field anomaly** $\Delta T = \Delta\mathbf{B}\cdot\hat{\mathbf{b}}$
+(the scalar projection — what the instrument records).
+(d) Compute the **vector projection** of $\Delta\mathbf{B}$ onto $\hat{\mathbf{b}}$.
+(e) Explain physically why $\Delta T$ is smaller than $\lVert\Delta\mathbf{B}\rVert$.
+
+## Problem 6 — Eigenvalues, symmetry, and the condition number
+
+Symmetric matrices appear throughout the course — as physical tensors (the
+gravity-gradient tensor) and as the normal-equations matrix $A^{\mathsf T}A$ in
+inversion. Consider
+
+$$
+M = \begin{pmatrix} 3 & 1 \\ 1 & 3 \end{pmatrix}.
+$$
+
+(a) Find the eigenvalues and (normalized) eigenvectors of $M$.
+(b) Verify the eigenvectors are orthogonal, and state the theorem that
+guarantees this for any real symmetric matrix.
+(c) The condition number of a symmetric positive-definite matrix is
+$\kappa = \lambda_{\max}/\lambda_{\min}$. Compute $\kappa$ for $M$.
+(d) Now consider $M' = \begin{pmatrix} 1 & 0.99 \\ 0.99 & 1 \end{pmatrix}$.
+Find its eigenvalues and condition number, and explain in one or two sentences
+what a large $\kappa$ implies about solving $A\mathbf{x} = \mathbf{b}$ when the
+data $\mathbf{b}$ contain noise. Connect this to the **non-uniqueness** problem
+in potential field inversion.
+
+\newpage
+
+# Part II — Solution Key
+
+## Solution 1
+
+**(a)** Differentiate $f = x^2y + yz^2$ componentwise:
+$$
+\nabla f = \left(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z}\right)
+= \big(2xy,\; x^2 + z^2,\; 2yz\big).
+$$
+
+**(b)** With $\mathbf{F} = (xy, yz, zx)$,
+$$
+\nabla\cdot\mathbf{F} = \frac{\partial(xy)}{\partial x} + \frac{\partial(yz)}{\partial y} + \frac{\partial(zx)}{\partial z}
+= y + z + x.
+$$
+
+**(c)** Using $\nabla\times\mathbf{F} = \left(\partial_y F_z - \partial_z F_y,\; \partial_z F_x - \partial_x F_z,\; \partial_x F_y - \partial_y F_x\right)$:
+$$
+\begin{aligned}
+(\nabla\times\mathbf{F})_x &= \partial_y(zx) - \partial_z(yz) = 0 - y = -y,\\
+(\nabla\times\mathbf{F})_y &= \partial_z(xy) - \partial_x(zx) = 0 - z = -z,\\
+(\nabla\times\mathbf{F})_z &= \partial_x(yz) - \partial_y(xy) = 0 - x = -x.
+\end{aligned}
+$$
+So $\nabla\times\mathbf{F} = (-y, -z, -x)$.
+
+**(d)** $\nabla^2 f = \partial_{xx}f + \partial_{yy}f + \partial_{zz}f$. From part (a),
+$\partial_{xx}f = 2y$, $\partial_{yy}f = 0$, $\partial_{zz}f = 2y$, so
+$$
+\nabla^2 f = 2y + 0 + 2y = 4y.
+$$
+
+## Solution 2
+
+**(a)** With $\mathbf{F} = (2xy + z^3,\; x^2,\; 3xz^2)$:
+$$
+\begin{aligned}
+(\nabla\times\mathbf{F})_x &= \partial_y(3xz^2) - \partial_z(x^2) = 0 - 0 = 0,\\
+(\nabla\times\mathbf{F})_y &= \partial_z(2xy + z^3) - \partial_x(3xz^2) = 3z^2 - 3z^2 = 0,\\
+(\nabla\times\mathbf{F})_z &= \partial_x(x^2) - \partial_y(2xy + z^3) = 2x - 2x = 0.
+\end{aligned}
+$$
+Hence $\nabla\times\mathbf{F} = \mathbf{0}$: the field is irrotational.
+
+**(b)** $\nabla\cdot\mathbf{F} = \partial_x(2xy+z^3) + \partial_y(x^2) + \partial_z(3xz^2) = 2y + 0 + 6xz = 2y + 6xz$,
+which is not identically zero. So $\mathbf{F}$ is **not** solenoidal.
+
+**(c)** We seek $\phi$ with $\nabla\phi = \mathbf{F}$. Integrate $\partial_x\phi = 2xy + z^3$ in $x$:
+$$
+\phi = x^2 y + x z^3 + g(y,z).
+$$
+Then $\partial_y\phi = x^2 + g_y$ must equal $F_y = x^2$, so $g_y = 0$ and $g = h(z)$.
+Finally $\partial_z\phi = 3xz^2 + h'(z)$ must equal $F_z = 3xz^2$, so $h'(z) = 0$ and $h$ is constant. Therefore
+$$
+\boxed{\;\phi(x,y,z) = x^2 y + x z^3 + C.\;}
+$$
+*(Check: $\nabla\phi = (2xy + z^3,\; x^2,\; 3xz^2) = \mathbf{F}$.)*
+
+**(d)** Outside of mass, gravity is **conservative / irrotational**: $\mathbf{g} = -\nabla V$, so $\nabla\times\mathbf{g} = -\nabla\times(\nabla V) = \mathbf{0}$ automatically (curl of a gradient vanishes). It is also solenoidal *outside* the masses, since $\nabla\cdot\mathbf{g} = -4\pi G\rho = 0$ where $\rho = 0$. Inside the masses it is no longer solenoidal.
+
+## Solution 3
+
+**Left side (volume integral).** For $\mathbf{F} = (x,y,z)$, $\nabla\cdot\mathbf{F} = 1 + 1 + 1 = 3$. The integrand is constant, so
+$$
+\int_V \nabla\cdot\mathbf{F}\, dV = 3 \cdot \text{Vol}(V) = 3 \cdot \frac{4}{3}\pi a^3 = 4\pi a^3.
+$$
+
+**Right side (surface flux).** On the sphere of radius $a$, the outward unit normal is $\hat{\mathbf{n}} = (x,y,z)/a$, so
+$$
+\mathbf{F}\cdot\hat{\mathbf{n}} = \frac{x^2 + y^2 + z^2}{a} = \frac{a^2}{a} = a
+$$
+(constant on the surface). Therefore
+$$
+\oint_S \mathbf{F}\cdot\hat{\mathbf{n}}\, dS = a \cdot \text{Area}(S) = a \cdot 4\pi a^2 = 4\pi a^3.
+$$
+
+Both sides equal $4\pi a^3$, verifying the theorem.
+
+**Connection to Gauss's law.** This is the structure of Gauss's law for gravity: the net flux of the field through a closed surface is fixed by the total "source" enclosed. For $\mathbf{g}$, $\oint_S \mathbf{g}\cdot\hat{\mathbf{n}}\,dS = -4\pi G\,M_{\text{enc}}$ — the surface flux measures the enclosed mass regardless of how that mass is distributed inside, which is one root of the non-uniqueness of potential field interpretation.
+
+## Solution 4
+
+**(a)** With $\phi = 1/r$, $\dfrac{d\phi}{dr} = -\dfrac{1}{r^2}$, so $r^2\dfrac{d\phi}{dr} = r^2\left(-\dfrac{1}{r^2}\right) = -1$. Then
+$$
+\nabla^2\phi = \frac{1}{r^2}\frac{d}{dr}(-1) = 0 \qquad (r > 0).
+$$
+This matters because $1/r$ is exactly the potential of a point mass (and, with sign, a point charge / monopole). Since it is harmonic everywhere except at the source, the potential of any mass distribution is harmonic in the source-free region — which is what makes harmonic analysis (spherical harmonics, Green's functions) the right toolkit for gravity and magnetics.
+
+**(b)** Set $\nabla^2\phi = 0$:
+$$
+\frac{1}{r^2}\frac{d}{dr}\!\left(r^2\phi'\right) = 0
+\;\Longrightarrow\; \frac{d}{dr}\!\left(r^2\phi'\right) = 0
+\;\Longrightarrow\; r^2\phi' = A \;(\text{const}).
+$$
+Then $\phi' = A/r^2$, and integrating gives
+$$
+\phi(r) = -\frac{A}{r} + B.
+$$
+Relabeling the constant ($-A \to A$), the general spherically symmetric harmonic function is
+$$
+\boxed{\;\phi(r) = \frac{A}{r} + B.\;}
+$$
+The $A/r$ term is the point-source (external) field; the constant $B$ is the (physically irrelevant) reference level.
+
+## Solution 5
+
+**(a)** With $I = 60^\circ$, $D = 0^\circ$: $\cos 60^\circ = 0.5$, $\sin 60^\circ = \tfrac{\sqrt3}{2} \approx 0.8660$, so
+$$
+\hat{\mathbf{b}} = (0.5,\; 0,\; 0.8660).
+$$
+Check: $\lVert\hat{\mathbf{b}}\rVert = \sqrt{0.25 + 0 + 0.75} = \sqrt{1} = 1.$ ✓
+
+**(b)** $\lVert\Delta\mathbf{B}\rVert = \sqrt{10^2 + 5^2 + 20^2} = \sqrt{100 + 25 + 400} = \sqrt{525} \approx 22.91$ nT.
+
+**(c)** Scalar projection:
+$$
+\Delta T = \Delta\mathbf{B}\cdot\hat{\mathbf{b}} = (10)(0.5) + (5)(0) + (20)(0.8660) = 5 + 0 + 17.32 = 22.32\ \text{nT}.
+$$
+
+**(d)** Vector projection (here $\hat{\mathbf{b}}$ is already a unit vector, so $\text{proj} = (\Delta\mathbf{B}\cdot\hat{\mathbf{b}})\,\hat{\mathbf{b}}$):
+$$
+\text{proj}_{\hat{\mathbf{b}}}\Delta\mathbf{B} = 22.32\,(0.5,\,0,\,0.8660) = (11.16,\; 0,\; 19.33)\ \text{nT}.
+$$
+
+**(e)** The scalar projection equals $\lVert\Delta\mathbf{B}\rVert\cos\theta$, where $\theta$ is the angle between $\Delta\mathbf{B}$ and the main-field direction. Since $\Delta\mathbf{B}$ is not perfectly aligned with $\hat{\mathbf{b}}$ ($\theta \neq 0$, so $\cos\theta < 1$), the recorded total-field anomaly $\Delta T = 22.32$ nT is slightly less than the true vector magnitude $22.91$ nT. The magnetometer "sees" only the component along the ambient field.
+
+## Solution 6
+
+**(a)** Eigenvalues solve $\det(M - \lambda I) = 0$:
+$$
+(3-\lambda)^2 - (1)(1) = 0 \;\Longrightarrow\; (3-\lambda)^2 = 1 \;\Longrightarrow\; \lambda = 4 \ \text{or}\ \lambda = 2.
+$$
+For $\lambda = 4$: $(M-4I)\mathbf{v} = \begin{pmatrix}-1 & 1\\ 1 & -1\end{pmatrix}\mathbf{v} = \mathbf{0}$ gives $v_1 = v_2$, so $\mathbf{v}_1 = \tfrac{1}{\sqrt2}(1, 1)$.
+For $\lambda = 2$: $(M-2I)\mathbf{v} = \begin{pmatrix}1 & 1\\ 1 & 1\end{pmatrix}\mathbf{v} = \mathbf{0}$ gives $v_1 = -v_2$, so $\mathbf{v}_2 = \tfrac{1}{\sqrt2}(1, -1)$.
+
+**(b)** $\mathbf{v}_1\cdot\mathbf{v}_2 = \tfrac{1}{2}\big[(1)(1) + (1)(-1)\big] = 0$, so they are orthogonal. This is guaranteed by the **spectral theorem**: every real symmetric matrix has real eigenvalues and a complete set of mutually orthogonal eigenvectors (and can be diagonalized as $M = Q\Lambda Q^{\mathsf T}$).
+
+**(c)** $M$ is symmetric positive-definite ($\lambda_{\min} = 2 > 0$), so
+$$
+\kappa = \frac{\lambda_{\max}}{\lambda_{\min}} = \frac{4}{2} = 2.
+$$
+This is small — $M$ is well-conditioned.
+
+**(d)** For $M'$, the eigenvalues are $\lambda = 1 \pm 0.99$, i.e. $\lambda_{\max} = 1.99$ and $\lambda_{\min} = 0.01$, so
+$$
+\kappa = \frac{1.99}{0.01} = 199.
+$$
+A large condition number means the system is **ill-conditioned**: directions in model space associated with the tiny eigenvalue are barely constrained by the data, so a small amount of noise in $\mathbf{b}$ produces a large change in the solution $\mathbf{x}$. In potential field inversion this is the formal face of **non-uniqueness** — poorly constrained model parameters (small singular values) cannot be recovered reliably, which is why regularization (e.g. truncated SVD or Tikhonov) and independent geologic constraints are needed.
+
+---
+
+## Numerical check (optional)
+
+```python
+import numpy as np
+
+# Problem 5
+I = np.deg2rad(60); D = np.deg2rad(0)
+b = np.array([np.cos(I)*np.cos(D), np.cos(I)*np.sin(D), np.sin(I)])
+dB = np.array([10., 5., 20.])
+print("|dB| =", np.linalg.norm(dB))          # 22.91
+print("dT   =", dB @ b)                        # 22.32
+print("proj =", (dB @ b) * b)                  # [11.16, 0, 19.33]
+
+# Problem 6
+M  = np.array([[3., 1.], [1., 3.]])
+Mp = np.array([[1., 0.99], [0.99, 1.]])
+print("eig(M)  =", np.linalg.eigvalsh(M))      # [2, 4]
+print("kappa M =", np.linalg.cond(M))          # 2
+print("eig(Mp) =", np.linalg.eigvalsh(Mp))     # [0.01, 1.99]
+print("kappa Mp=", np.linalg.cond(Mp))         # 199
+```

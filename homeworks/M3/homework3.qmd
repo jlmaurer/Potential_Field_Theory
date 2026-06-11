@@ -1,0 +1,50 @@
+# Homework 3: Magnetic Potential and the Geomagnetic Field
+
+This homework covers material from **Module 3: Magnetic Potential, Magnetization, and the Geomagnetic Field** and aligns with learning outcomes **LO3**.
+
+**Related Resources:**
+- Lectures: M3 lecture notes (Magnetic Potentials, Magnetization, IGRF)
+- Lab: Lab 3 (Dipole Fields and the IGRF) — *Strongly recommended for Problems 3.1, 3.3, 3.4*
+- Textbook: Blakely Ch. 4, 5, 8
+- Software: pyIGRF package or IGRF coefficients available online
+
+## Problems
+
+1. **Problem 3.1** (Blakely Ch. 4, Problem 1) — *Derivation/Moderate*
+   - Derive the scalar magnetic potential for a uniformly magnetized sphere. Include the boundary conditions and solution.
+   - **Cross-reference:** Lab 3, Part 1; M1/lecture1_notes.qmd (Laplace's equation in spherical coordinates)
+   - **Difficulty:** Moderate (eigenfunction expansion, requires separation of variables)
+   - **Tip:** Assume $\Phi(r,\theta) = \sum A_n r^n P_n(\cos\theta)$; apply BCs at sphere surface
+
+2. **Problem 3.2** (Blakely Ch. 5, Problem 2) — *Conceptual/Moderate*
+   - Explain Poisson's relation and show how it connects gravity and magnetic fields. Provide a mathematical derivation.
+   - **Cross-reference:** M2/lecture notes (gravity analogy); Lab 3 conceptual discussion; M1/lecture2_notes.qmd (Green's identities)
+   - **Difficulty:** Moderate (requires understanding of magnetization and density analogies)
+   - **Tip:** Show how magnetic anomaly relates to gravity anomaly of equivalent mass distribution via susceptibility and background field
+
+3. **Problem 3.3** (Blakely Ch. 8, Problem 3) — *Computational/Easy*
+   - Using IGRF coefficients, compute the magnetic field components (X, Y, Z, F) at latitude 40°N, longitude 120°W, elevation 0 km for 2025.
+   - **Cross-reference:** Lab 3, Part 2 (IGRF computation); online IGRF resources
+   - **Difficulty:** Easy (straightforward coefficient application; code or spreadsheet-based)
+   - **Tip:** Download IGRF13 or latest coefficients; use harmonic synthesis formula; verify against reference values
+
+4. **Problem 3.4** (Blakely Ch. 4, Problem 4) — *Analytical/Moderate*
+   - Calculate the magnetic field of a dipole with moment $\mathbf{m} = 10^6$ A·m² at a distance of 1000 m along the axis. Compare with the point dipole approximation.
+   - **Cross-reference:** Lab 3, Part 1; M0/lecture3_notes.qmd (dipole field formula)
+   - **Difficulty:** Moderate (field calculation; asymptotic comparison)
+   - **Tip:** Use dipole field formula on axis ($B_z = \frac{\mu_0}{4\pi} \frac{2m}{r^3}$); verify accuracy of approximation
+
+5. **Problem 3.5** (Blakely Ch. 8, Problem 5) — *Interpretation/Moderate*
+   - Describe how crustal magnetic anomalies are defined and measured. Explain the difference between total-field and component anomalies.
+   - **Cross-reference:** Lab 3, Part 3; M3 lecture notes; M6 lecture notes (RTP transformation)
+   - **Difficulty:** Moderate (conceptual and practical understanding)
+   - **Tip:** Explain role of IGRF baseline; discuss magnetometer types (proton precession, fluxgate); relate to reduction to pole concepts
+
+## Submission Guidelines
+
+- Submit solutions as a PDF or Quarto document
+- Include derivations, calculations, and clear explanations
+- Use vector notation ($\mathbf{B}$, $\nabla$) and SI units consistently
+- Include diagrams (e.g., dipole field lines, IGRF variation maps)
+- References to data sources (e.g., IGRF, lab)
+- Expected length: 4–6 pages

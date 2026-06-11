@@ -1,0 +1,48 @@
+# Homework 6.5: Upward and Downward Continuation
+
+This homework covers material from **Module 6.5: Upward and Downward Continuation Methods** and aligns with learning outcomes **LO8, LO6**.
+
+**Related Resources:**
+- Lectures: M6.5 lecture notes (Continuation Theory, Applications, Stability)
+- Lab: Lab 6.5 (Continuation Techniques) — *Essential for all problems*
+- Lab 6: Fourier Filtering (see Part 2 on upward continuation)
+- Textbook: Blakely Ch. 12 (Transformations)
+
+## Problems
+
+1. **Problem 6.5.1** (Blakely Ch. 12, Problem 3) — *Derivation/Moderate*
+   - Derive the upward continuation formula for a potential field. Show the filter function $e^{-|k|h}$ in wavenumber space.
+   - **Cross-reference:** M6.5 lecture notes, Section "Continuation Theory"; Lab 6.5, Part 1
+   - **Difficulty:** Moderate (PDE solution; Fourier domain reasoning)
+   - **Tip:** Start from Laplace's equation ∇²φ = 0; transform to k-domain; solve for φ(k,h); inverse transform to spatial domain
+
+2. **Problem 6.5.2** — *Stability Analysis/Challenging*
+   - Implement downward continuation and analyze noise amplification. For what wavenumbers is downward continuation unstable? Provide mathematical justification.
+   - **Cross-reference:** Lab 6.5, Part 2; M6.5 lecture notes, Section "Stability Considerations"
+   - **Difficulty:** Challenging (noise analysis; stability theory; numerical methods)
+   - **Tip:** Add noise to synthetic data; apply downward continuation at varying depths; show amplification factor e^{|k|h}; identify cutoff wavenumber
+
+3. **Problem 6.5.3** — *Application/Moderate*
+   - Apply continuation to separate regional and residual gravity anomalies. Demonstrate with a synthetic example.
+   - **Cross-reference:** Lab 6.5, Part 3; M6.5 lecture notes, Section "Practical Applications"; M2/lecture notes (gravity anomalies)
+   - **Difficulty:** Moderate (practical workflow; interpretation)
+   - **Tip:** Create synthetic data with deep (regional) and shallow (residual) sources; upward continue to isolate regional; compute residual; compare with original
+
+4. **Problem 6.5.4** — *Reliability Assessment/Challenging*
+   - Evaluate the stability of continuation methods. What factors affect the reliability of downward continuation?
+   - **Cross-reference:** Lab 6.5, Part 2; M6.5 lecture notes, Section "Stability Considerations"; Data quality discussion
+   - **Difficulty:** Challenging (synthesis of theory and practice; error analysis)
+   - **Tip:** Test sensitivity to: (1) data noise level, (2) grid spacing (Nyquist limit), (3) data gaps, (4) continuation distance; provide quantitative recommendations
+
+## Submission Guidelines
+
+- Submit solutions as a **Jupyter notebook** (preferred) or PDF/Quarto document
+- For analytical problems: include complete derivations and mathematical justifications
+- For computational problems: include Python code (or pseudocode), comments, and reproducibility instructions
+- **Essential:** Include plots showing:
+  - Continuation filters in wavenumber domain (log-log scale)
+  - Synthetic data before/after continuation
+  - Noise amplification vs wavenumber (quantified)
+  - Regional/residual separation example
+- Discuss practical implications and limitations (why not continue too far down?)
+- Expected complexity: 8–10 pages (narrative + code) + extensive figures

@@ -1,0 +1,49 @@
+# Homework 2: Newtonian Potential and Gravity Fields
+
+This homework covers material from **Module 2: Newtonian Potential and Gravity Fields** and aligns with learning outcomes **LO2**.
+
+**Related Resources:**
+- Lectures: M2 lecture notes (Gravitational Potential and Applications)
+- Lab: Lab 2 (Gravity of Simple Bodies) — *Strongly recommended to complete before/during HW*
+- Textbook: Blakely Ch. 3, 7
+
+## Problems
+
+1. **Problem 2.1** (Blakely Ch. 3, Problem 1) — *Foundation/Easy*
+   - Derive the gravitational potential and vertical attraction of a point mass. Include the mathematical expressions and units.
+   - **Cross-reference:** Lab 2, Part 1; M0/lecture3_notes.qmd (vector calculus review)
+   - **Difficulty:** Easy (fundamental derivation using Coulomb-Newton analogy)
+   - **Tip:** Start with Newton's law of universal gravitation; integrate to get potential; differentiate to get field
+
+2. **Problem 2.2** (Blakely Ch. 3, Problem 4) — *Conceptual/Moderate*
+   - Apply Newton's shell theorem to explain why the gravitational field inside a uniform spherical shell is zero. Extend this to the PREM model.
+   - **Cross-reference:** Lab 2, Part 2; M0/lecture3_notes.qmd (coordinate systems)
+   - **Difficulty:** Moderate (proof technique; extension to real Earth models)
+   - **Tip:** Use symmetry argument; integrate over shell; relate each shell in PREM to enclosed mass
+
+3. **Problem 2.3** (Blakely Ch. 7, Problem 2) — *Computational/Moderate*
+   - Calculate the free-air, Bouguer, and isostatic corrections for a gravity station at elevation 1000 m above sea level, with Bouguer plate thickness 30 m. Use standard densities (ρ_crust=2670 kg/m³, ρ_water=1000 kg/m³, ρ_mantle=3300 kg/m³).
+   - **Cross-reference:** Lab 2, Part 3 (corrections application); M2 lecture notes
+   - **Difficulty:** Moderate (straightforward calculations; understanding physical meaning)
+   - **Tip:** Research standard formulas; check units carefully; explain physical significance of each correction
+
+4. **Problem 2.4** (Blakely Ch. 3, Problem 6) — *Analytical/Moderate*
+   - Compute the gravitational potential of a solid sphere of uniform density $\rho$ and radius $R$. Compare with the point mass approximation for points outside the sphere.
+   - **Cross-reference:** Lab 2, Part 1; M1/lecture1_notes.qmd (spherical coordinates)
+   - **Difficulty:** Moderate (integration in spherical coordinates; asymptotic analysis)
+   - **Tip:** Integrate shell by shell; use shell theorem result; check agreement with point mass for $r \gg R$
+
+5. **Problem 2.5** (Blakely Ch. 3, Problem 8) — *Application/Challenging*
+   - Explain Gauss's law for gravity and derive the expression for excess mass from the gravity anomaly of a buried sphere.
+   - **Cross-reference:** Lab 2, Part 2; M1/lecture2_notes.qmd (Green's identities); Final Project (inverse modeling)
+   - **Difficulty:** Challenging (synthesis of Gauss's law, BVP theory, and geophysical interpretation)
+   - **Tip:** Start with divergence theorem; relate field to enclosed mass; work backward from anomaly to infer source
+
+## Submission Guidelines
+
+- Submit solutions as a PDF or Quarto document
+- Include derivations, calculations, and explanations with proper units
+- Show all work step-by-step
+- Include graphs/sketches where helpful (e.g., gravity vs depth plots)
+- Cite references appropriately
+- Expected length: 4–6 pages

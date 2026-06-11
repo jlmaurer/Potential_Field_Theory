@@ -1,0 +1,50 @@
+# Homework 5: Forward and Inverse Modeling
+
+This homework covers material from **Module 5: Forward and Inverse Modeling** and aligns with learning outcomes **LO5, LO2, LO3**.
+
+**Related Resources:**
+- Lectures: M5 lecture notes (Forward Modeling, Inverse Methods, Depth Estimation)
+- Lab: Lab 5 (Talwani Forward Modeling and Inversion) — *Essential for Problems 5.1, 5.2*
+- Textbook: Blakely Ch. 9, 10
+- Software: NumPy/SciPy for matrix operations; pyproj for coordinate transforms
+
+## Problems
+
+1. **Problem 5.1** (Blakely Ch. 9, Problem 1) — *Analytical/Challenging*
+   - Implement the Talwani method for a 2D polygonal body. Derive the formula for the gravitational attraction of a vertical line segment.
+   - **Cross-reference:** Lab 5, Part 1 (implementation and testing); M2/lecture notes (gravity field)
+   - **Difficulty:** Challenging (integration geometry; algorithmic thinking)
+   - **Tip:** Carefully set up coordinate system; integrate line-by-line segment; verify against simple test cases (sphere, infinite slab)
+
+2. **Problem 5.2** (Blakely Ch. 10, Problem 2) — *Linear Algebra/Moderate*
+   - Set up a linear inverse problem for determining magnetization direction from magnetic anomalies. Formulate the matrix equation $\mathbf{d} = \mathbf{G} \mathbf{m}$.
+   - **Cross-reference:** Lab 5, Part 2; M0/lecture3_notes.qmd (matrix algebra); M3/lecture notes (magnetization)
+   - **Difficulty:** Moderate (linear system formulation; sensitivity analysis)
+   - **Tip:** Identify data vector (obs. anomalies), model vector (magnetization direction), and sensitivity/Jacobian matrix; discuss rank and conditioning
+
+3. **Problem 5.3** (Blakely Ch. 10, Problem 4) — *Application/Challenging*
+   - Apply Euler deconvolution to locate the source of a magnetic anomaly. Derive the Euler equation for different structural indices (SI = 0, 1, 2, 3).
+   - **Cross-reference:** Lab 5, Part 3; M5 lecture notes, Section "Depth-to-Source Methods"; M0/lecture3_notes.qmd (partial derivatives)
+   - **Difficulty:** Challenging (spatial derivatives; windowing strategy; multiple solutions)
+   - **Tip:** Compute derivatives of total field; setup overdetermined system for each window; cluster solutions to find source position
+
+4. **Problem 5.4** (Blakely Ch. 10, Problem 6) — *Conceptual/Moderate*
+   - Discuss the nonuniqueness of potential field inverse problems. Provide specific examples and explain how independent information helps resolve ambiguity.
+   - **Cross-reference:** M1/lecture2_notes.qmd (uniqueness theorem); Lab 5 (modeling trade-offs); Final Project (real-world application)
+   - **Difficulty:** Moderate (conceptual depth; synthesis with prior knowledge)
+   - **Tip:** Show concrete examples (same anomaly from different sources); discuss role of depth weighting, regularization, and geologic constraints
+
+5. **Problem 5.5** — *Application/Moderate*
+   - Use Werner deconvolution to estimate depth to a magnetic contact. Show the mathematical derivation and state key assumptions.
+   - **Cross-reference:** Lab 5, supplementary material; M5 lecture notes, Section "Depth Estimation"; Blakely Ch. 10
+   - **Difficulty:** Moderate (formulation of contact model; least-squares fitting)
+   - **Tip:** Assume vertical contact model; derive anomaly formula; fit to observed data using least squares; discuss limitations (assumes 2D contact)
+
+## Submission Guidelines
+
+- Submit solutions as a PDF, Quarto document, or Jupyter notebook
+- Include complete derivations, mathematical formulations, and step-by-step solutions
+- Include sketches/diagrams showing model geometry, sensitivity, or solution workflow
+- For computational problems, include code snippets or links to reproducible scripts
+- Discuss physical interpretability of results
+- Expected complexity: 6–10 pages + code/figures

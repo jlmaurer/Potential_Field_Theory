@@ -1,0 +1,51 @@
+# Homework 6: Fourier Methods and Transformations
+
+This homework covers material from **Module 6: Fourier Methods, Transformations, and Data Enhancement** and aligns with learning outcomes **LO6, LO8**.
+
+**Related Resources:**
+- Lectures: M6 lecture notes (Fourier-Domain Modeling, Data Transformations)
+- Lab: Lab 6 (Fourier Filtering and Transformations) — *Essential for computational Problems 6.2, 6.3, 6.4*
+- Lab 6.5: Continuation Techniques (related to Problem 6.2)
+- Textbook: Blakely Ch. 11, 12
+- Python libraries: NumPy FFT, SciPy signal processing
+
+## Problems
+
+1. **Problem 6.1** (Blakely Ch. 11, Problem 1) — *Fourier Analysis/Moderate*
+   - Apply the Fourier transform to the potential of a vertical line source. Show how the wavenumber relates to source geometry.
+   - **Cross-reference:** Lab 6, Part 1; M6 lecture notes, Section "Fourier-Domain Modeling"; M0/lecture2_notes.qmd (FFT review)
+   - **Difficulty:** Moderate (Fourier transform mechanics; wavenumber interpretation)
+   - **Tip:** Use linearity of FT; integrate in k-domain; relate slope to source depth, amplitude to mass/moment
+
+2. **Problem 6.2** (Blakely Ch. 12, Problem 2) — *Continuation/Challenging*
+   - Derive the upward continuation operator in the wavenumber domain $e^{-|k|h}$. Discuss stability for downward continuation.
+   - **Cross-reference:** Lab 6, Part 2; Lab 6.5; M6 lecture notes, Section "Transformations"; M6.5 lecture notes
+   - **Difficulty:** Challenging (separation of variables in Laplace's eq.; operator derivation)
+   - **Tip:** Start with Laplace's equation in Fourier domain; solve for spectral expansion; discuss exponential amplification in downward case
+
+3. **Problem 6.3** (Blakely Ch. 12, Problem 4) — *Transformation/Challenging*
+   - Implement reduction to the pole for a magnetic anomaly with known magnetization direction. Show the filter in wavenumber space.
+   - **Cross-reference:** Lab 6, Part 3; M6 lecture notes, Section "Phase Transformations"; M3/lecture notes (magnetization)
+   - **Difficulty:** Challenging (phase rotation; filter design; physical interpretation)
+   - **Tip:** Apply analytic signal to estimate inclination/declination; implement RTP filter; verify with synthetic data before applying to real data
+
+4. **Problem 6.4** (Blakely Ch. 12, Problem 6) — *Signal Processing/Moderate*
+   - Calculate the analytic signal of a magnetic profile using the Hilbert transform. Explain how it enhances source edges.
+   - **Cross-reference:** Lab 6, Part 4; M6 lecture notes, Section "Complex Analysis and Analytic Signal"; M0/lecture2_notes.qmd (signal processing)
+   - **Difficulty:** Moderate (Hilbert transform computation; edge detection concept)
+   - **Tip:** Use scipy.signal.hilbert or manual FFT implementation; plot amplitude and phase; relate to source geometry
+
+5. **Problem 6.5** (Blakely Ch. 11, Problem 5) — *Spectral Analysis/Challenging*
+   - Interpret the power spectrum of a gravity anomaly. How does the slope relate to source depth and geometry?
+   - **Cross-reference:** Lab 6, Part 1; M6 lecture notes, Section "Depth and Shape from Spectra"; M4/homework problem 4.5 (harmonic analysis analogy)
+   - **Difficulty:** Challenging (spectral interpretation; inverse modeling)
+   - **Tip:** Compute FFT magnitude; plot log-log spectrum; identify break frequency; relate slope to fractal dimension; estimate equivalent source depth
+
+## Submission Guidelines
+
+- Submit solutions as a PDF, Quarto document, or **Jupyter notebook** (preferred for computational work)
+- Include complete derivations and mathematical justifications
+- **Essential:** Include plots of filters (wavenumber domain), spectra (log-log plots), and before/after transformed data
+- Include Python code or pseudocode for computational problems
+- Discuss physical meaning of results and limitations
+- Expected complexity: 8–12 pages + extensive figures/code

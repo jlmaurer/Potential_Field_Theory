@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Interactive Demos — Geophys 5432</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0B1120;
+    --panel:#121A2B;
+    --panel-2:#0E1626;
+    --line:#1E2A42;
+    --ink:#E7EDF5;
+    --muted:#8593AB;
+    --accent:#5CC8DC;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Space Grotesk",system-ui,sans-serif;
+    line-height:1.5;
+    padding:48px 24px 72px;
+  }
+  .wrap{max-width:880px;margin:0 auto;}
+  .eyebrow{
+    font-family:"IBM Plex Mono",ui-monospace,monospace;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:10px;
+  }
+  h1{font-size:clamp(28px,5vw,40px);font-weight:700;letter-spacing:-.01em;}
+  .lede{color:var(--muted);margin-top:12px;max-width:60ch;}
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:18px;
+    margin-top:36px;
+  }
+  a.card{
+    display:block;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:22px;
+    text-decoration:none;
+    color:inherit;
+    transition:border-color .15s ease, transform .15s ease, background .15s ease;
+  }
+  a.card:hover,a.card:focus-visible{
+    border-color:var(--accent);
+    background:var(--panel-2);
+    transform:translateY(-2px);
+    outline:none;
+  }
+  .tag{
+    display:inline-block;
+    font-family:"IBM Plex Mono",ui-monospace,monospace;
+    font-size:11px;
+    letter-spacing:.1em;
+    color:var(--accent);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:2px 9px;
+    margin-bottom:12px;
+  }
+  .card h2{font-size:18px;font-weight:600;margin-bottom:8px;}
+  .card p{color:var(--muted);font-size:14px;}
+  footer{
+    margin-top:56px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    color:var(--muted);
+    font-size:13px;
+  }
+  footer a{color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Geophys 5432 · Potential Field Theory</p>
+  <h1>Interactive Demos</h1>
+  <p class="lede">
+    Browser-based visualizations to accompany the course modules. Each runs entirely
+    in your browser &mdash; no install required. Best viewed on a laptop or desktop.
+  </p>
+
+  <div class="grid">
+    <a class="card" href="spherical_harmonics_explorer.html">
+      <span class="tag">M4</span>
+      <h2>Spherical Harmonics Explorer</h2>
+      <p>Vary degree &#8467; and order m to see how each harmonic <em>Y</em><sub>&#8467;m</sub> patterns the sphere, including its nodal lines.</p>
+    </a>
+
+    <a class="card" href="sh_reconstruction_demo.html">
+      <span class="tag">M4</span>
+      <h2>Building a Field from Spherical Harmonics</h2>
+      <p>Add harmonics term by term and watch a field reconstruct itself, showing how truncation degree limits resolution.</p>
+    </a>
+
+    <a class="card" href="radial_continuation_demo.html">
+      <span class="tag">M6</span>
+      <h2>Radial Continuation of a Potential Field</h2>
+      <p>Continue a field upward and downward in radius to see how short wavelengths attenuate and why downward continuation is unstable.</p>
+    </a>
+  </div>
+
+  <footer>
+    Source: <a href="https://github.com/jlmaurer/Potential_Field_Theory">github.com/jlmaurer/Potential_Field_Theory</a>
+    &middot; Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+  </footer>
+</div>
+</body>
+</html>

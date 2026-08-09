@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Spherical Harmonics Explorer — Geophys 5432</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+  :root{
+    --bg:#0B1120;
+    --panel:#121A2B;
+    --panel-2:#0E1626;
+    --line:#1E2A42;
+    --ink:#E7EDF5;
+    --muted:#8593AB;
+    --accent:#5CC8DC;
+    --pos:#B2182B;
+    --neg:#2166AC;
+    --node:#F2C14E;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Space Grotesk",system-ui,sans-serif;
+    overflow:hidden;
+  }
+  #app{
+    display:grid;
+    grid-template-columns:1fr 340px;
+    grid-template-rows:auto 1fr auto;
+    grid-template-areas:
+      "header header"
+      "stage  panel"
+      "map    panel";
+    height:100vh;
+  }
+  header{
+    grid-area:header;
+    display:flex;align-items:baseline;gap:16px;
+    padding:14px 22px;
+    border-bottom:1px solid var(--line);
+  }
+  header .eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--accent);
+  }
+  header h1{
+    font-size:16px;font-weight:600;margin:0;letter-spacing:.01em;
+  }
+  header .course{
+    margin-left:auto;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11px;color:var(--muted);letter-spacing:.12em;
+  }
+
+  #stage{grid-area:stage;position:relative;min-height:0;}
+  #gl{display:block;width:100%;height:100%;}
+  .stage-hint{
+    position:absolute;left:16px;bottom:12px;
+    font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);
+    pointer-events:none;user-select:none;
+  }
+  .legend{
+    position:absolute;right:16px;top:14px;
+    display:flex;align-items:center;gap:8px;
+    font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);
+  }
+  .legend .bar{
+    width:120px;height:8px;border-radius:2px;
+    background:linear-gradient(90deg,var(--neg),#F4F4F4,var(--pos));
+  }
+
+  #panel{
+    grid-area:panel;
+    border-left:1px solid var(--line);
+    background:var(--panel-2);
+    padding:20px 20px 24px;
+    overflow-y:auto;
+    display:flex;flex-direction:column;gap:22px;
+  }
+  .group-label{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:10px;
+  }
+
+  .stepper{display:flex;align-items:center;gap:0;margin-bottom:14px;}
+  .stepper .name{width:74px;font-size:14px;color:var(--ink);}
+  .stepper .name small{display:block;color:var(--muted);font-size:11px;font-weight:400;}
+  .stepper button{
+    width:38px;height:38px;flex:none;
+    background:var(--panel);color:var(--ink);
+    border:1px solid var(--line);
+    font-family:"IBM Plex Mono",monospace;font-size:18px;line-height:1;
+    cursor:pointer;transition:background .12s,border-color .12s;
+  }
+  .stepper button:first-of-type{border-radius:8px 0 0 8px;}
+  .stepper button:last-of-type{border-radius:0 8px 8px 0;}
+  .stepper button:hover:not(:disabled){border-color:var(--accent);color:var(--accent);}
+  .stepper button:disabled{opacity:.32;cursor:not-allowed;}
+  .stepper .val{
+    width:52px;height:38px;display:flex;align-items:center;justify-content:center;
+    background:var(--bg);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:600;color:var(--accent);
+  }
+
+  .toggle-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .toggle{
+    padding:8px 12px;border-radius:7px;
+    background:var(--panel);border:1px solid var(--line);
+    color:var(--muted);font-size:12.5px;cursor:pointer;
+    transition:all .12s;user-select:none;
+  }
+  .toggle:hover{border-color:var(--accent);}
+  .toggle[aria-pressed="true"]{
+    color:var(--bg);background:var(--accent);border-color:var(--accent);font-weight:600;
+  }
+  .toggle.disabled{opacity:.35;pointer-events:none;}
+
+  .readout{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:16px;
+  }
+  .readout .klass{
+    font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:2px;
+  }
+  .readout .klass.zonal{color:#7FB3FF;}
+  .readout .klass.sectoral{color:#FF9E7A;}
+  .readout .klass.tesseral{color:#B9E86B;}
+  .readout .klass-sub{color:var(--muted);font-size:12px;margin-bottom:14px;}
+  .formula{
+    font-family:"IBM Plex Mono",monospace;font-size:15px;
+    background:var(--bg);border:1px solid var(--line);border-radius:7px;
+    padding:11px 12px;margin-bottom:14px;color:var(--ink);
+  }
+  .formula sub,.formula sup{font-size:11px;color:var(--accent);}
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .fact{background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:10px;}
+  .fact .n{font-family:"IBM Plex Mono",monospace;font-size:20px;font-weight:600;color:var(--ink);}
+  .fact .l{font-size:10.5px;color:var(--muted);margin-top:3px;line-height:1.3;}
+
+  .scale-note{
+    font-size:12.5px;line-height:1.5;color:var(--muted);
+    border-left:2px solid var(--accent);padding:2px 0 2px 12px;
+  }
+  .scale-note b{color:var(--ink);font-weight:600;}
+
+  #map{
+    grid-area:map;
+    border-top:1px solid var(--line);
+    padding:12px 22px 16px;
+    display:flex;gap:18px;align-items:center;
+  }
+  #mapCanvas{
+    border:1px solid var(--line);border-radius:6px;
+    image-rendering:auto;flex:none;background:var(--bg);
+  }
+  .map-caption{font-size:12.5px;color:var(--muted);line-height:1.55;max-width:520px;}
+  .map-caption b{color:var(--ink);font-weight:600;}
+  .map-caption .mono{font-family:"IBM Plex Mono",monospace;color:var(--accent);}
+
+  @media (max-width:920px){
+    #app{
+      grid-template-columns:1fr;
+      grid-template-rows:auto 52vh auto auto;
+      grid-template-areas:"header" "stage" "panel" "map";
+      height:auto;min-height:100vh;overflow:auto;
+    }
+    #panel{border-left:none;border-top:1px solid var(--line);}
+    #map{flex-direction:column;align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <span class="eyebrow">M4 · Spherical Harmonic Analysis</span>
+    <h1>Spherical Harmonics Explorer</h1>
+    <span class="course">Y<sub>ℓ</sub><sup>m</sup>(θ,φ) = P<sub>ℓ</sub><sup>m</sup>(cos θ)·cos(mφ)</span>
+  </header>
+
+  <div id="stage">
+    <canvas id="gl"></canvas>
+    <div class="legend"><span>−</span><span class="bar"></span><span>+</span></div>
+    <div class="stage-hint">drag to rotate · the surface color is the harmonic's value</div>
+  </div>
+
+  <aside id="panel">
+    <div>
+      <div class="group-label">Choose a mode</div>
+      <div class="stepper">
+        <div class="name">Degree<small>ℓ</small></div>
+        <button id="lMinus">−</button><div class="val" id="lVal">3</div><button id="lPlus">+</button>
+      </div>
+      <div class="stepper">
+        <div class="name">Order<small>m ≤ ℓ</small></div>
+        <button id="mMinus">−</button><div class="val" id="mVal">2</div><button id="mPlus">+</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="group-label">Display</div>
+      <div class="toggle-row">
+        <div class="toggle" id="tRelief" aria-pressed="false" role="button" tabindex="0">Radial relief</div>
+        <div class="toggle" id="tNodes" aria-pressed="true" role="button" tabindex="0">Nodal lines</div>
+        <div class="toggle" id="tGrid" aria-pressed="false" role="button" tabindex="0">Graticule</div>
+        <div class="toggle" id="tPhase" aria-pressed="false" role="button" tabindex="0">sin(mφ)</div>
+        <div class="toggle" id="tSpin" aria-pressed="true" role="button" tabindex="0">Auto-rotate</div>
+      </div>
+    </div>
+
+    <div class="readout">
+      <div class="klass" id="klass">Tesseral</div>
+      <div class="klass-sub" id="klassSub">varies in both latitude and longitude</div>
+      <div class="formula" id="formula"></div>
+      <div class="facts">
+        <div class="fact"><div class="n" id="fPar">1</div><div class="l">nodal parallels<br>(latitude circles) = ℓ−m</div></div>
+        <div class="fact"><div class="n" id="fMer">2</div><div class="l">nodal meridians<br>(great circles) = m</div></div>
+      </div>
+    </div>
+
+    <div class="scale-note" id="scaleNote"></div>
+  </aside>
+
+  <div id="map">
+    <canvas id="mapCanvas" width="360" height="180"></canvas>
+    <div class="map-caption">
+      <b>The same function, unrolled.</b> This is the flat (longitude, colatitude) map — the projection students see as a contour map of a global field.
+      Reading it against the sphere is the bridge from the <span class="mono">P<sub>ℓ</sub><sup>m</sup></span> latitude structure to the pattern on the globe.
+      Every Y<sub>ℓ</sub><sup>m</sup> has exactly <b>ℓ</b> nodal lines — that count is the whole taxonomy.
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- associated Legendre P_l^m(u), stable recursion (no Condon–Shortley) ---------- */
+function Plm(l, m, u){
+  const s = Math.sqrt(Math.max(0, 1 - u*u));      // sin θ
+  let pmm = 1;
+  for(let i=1;i<=m;i++) pmm *= (2*i - 1) * s;      // P_m^m
+  if(l === m) return pmm;
+  let pmmp1 = (2*m + 1) * u * pmm;                 // P_{m+1}^m
+  if(l === m + 1) return pmmp1;
+  let pll = 0;
+  for(let ll=m+2; ll<=l; ll++){                    // upward in l
+    pll = ((2*ll - 1)*u*pmmp1 - (ll + m - 1)*pmm) / (ll - m);
+    pmm = pmmp1; pmmp1 = pll;
+  }
+  return pll;
+}
+function harmonic(l, m, theta, phi, useSin){
+  const ang = useSin && m>0 ? Math.sin(m*phi) : Math.cos(m*phi);
+  return Plm(l, m, Math.cos(theta)) * ang;
+}
+/* diverging colormap (RdBu-style): v in [-1,1] -> [r,g,b] 0..1 */
+function divColor(v){
+  v = Math.max(-1, Math.min(1, v));
+  const neg=[0.129,0.400,0.674], mid=[0.960,0.960,0.960], pos=[0.698,0.094,0.169];
+  const a = v<0 ? neg : pos, t = Math.abs(v);
+  return [ mid[0]+(a[0]-mid[0])*t, mid[1]+(a[1]-mid[1])*t, mid[2]+(a[2]-mid[2])*t ];
+}
+
+/* ---------- state ---------- */
+const st = { l:3, m:2, relief:false, nodes:true, grid:false, sin:false, spin:true };
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(prefersReduced) st.spin = false;
+
+/* ---------- three.js scene ---------- */
+const canvas = document.getElementById('gl');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+camera.position.set(0, 0, 4.2);
+
+const worldGroup = new THREE.Group();       // rotated by user / auto-spin
+scene.add(worldGroup);
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+const dir = new THREE.DirectionalLight(0xffffff, 0.55);
+dir.position.set(2, 2.5, 3);
+scene.add(dir);                              // lights fixed to camera space, not the spinning globe
+
+const R = 1;
+const geo = new THREE.SphereGeometry(R, 180, 120);
+const basePos = geo.attributes.position.array.slice();
+const nVerts = geo.attributes.position.count;
+geo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(nVerts*3), 3));
+const mat = new THREE.MeshStandardMaterial({vertexColors:true, roughness:0.95, metalness:0.0});
+const sphere = new THREE.Mesh(geo, mat);
+worldGroup.add(sphere);
+
+let nodeGroup = new THREE.Group();  worldGroup.add(nodeGroup);
+let gridGroup = new THREE.Group();  worldGroup.add(gridGroup);
+
+/* precompute per-vertex (theta,phi) once */
+const vTheta = new Float32Array(nVerts), vPhi = new Float32Array(nVerts);
+for(let i=0;i<nVerts;i++){
+  const x=basePos[3*i], y=basePos[3*i+1], z=basePos[3*i+2];
+  vTheta[i] = Math.acos(Math.max(-1,Math.min(1, y/R)));
+  vPhi[i]   = Math.atan2(z, x);
+}
+
+function pointOnSphere(theta, phi, rr){
+  return new THREE.Vector3(rr*Math.sin(theta)*Math.cos(phi), rr*Math.cos(theta), rr*Math.sin(theta)*Math.sin(phi));
+}
+
+function buildGraticule(){
+  gridGroup.clear();
+  const m = new THREE.LineBasicMaterial({color:0x30405e, transparent:true, opacity:0.6});
+  for(let lat=30; lat<180; lat+=30){        // parallels
+    const th=lat*Math.PI/180, pts=[];
+    for(let a=0;a<=360;a+=4) pts.push(pointOnSphere(th, a*Math.PI/180, R*1.002));
+    gridGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), m));
+  }
+  for(let lon=0; lon<360; lon+=30){          // meridians
+    const ph=lon*Math.PI/180, pts=[];
+    for(let a=0;a<=180;a+=3) pts.push(pointOnSphere(a*Math.PI/180, ph, R*1.002));
+    gridGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), m));
+  }
+  gridGroup.visible = st.grid;
+}
+
+function latitudeRoots(l,m){                  // theta where P_l^m(cosθ)=0, interior
+  const roots=[], N=1400; let prev=Plm(l,m,Math.cos(Math.PI/N));
+  for(let i=2;i<N;i++){
+    const th=i*Math.PI/N, cur=Plm(l,m,Math.cos(th));
+    if(prev===0 || prev*cur<0) roots.push(th);
+    prev=cur;
+  }
+  return roots;
+}
+function buildNodes(){
+  nodeGroup.clear();
+  const m = new THREE.LineBasicMaterial({color:0xF2C14E, transparent:true, opacity:0.95});
+  latitudeRoots(st.l, st.m).forEach(th=>{     // nodal parallels
+    const pts=[]; for(let a=0;a<=360;a+=3) pts.push(pointOnSphere(th, a*Math.PI/180, R*1.004));
+    nodeGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), m));
+  });
+  if(st.m>0){                                  // nodal meridians: angular factor = 0
+    for(let k=0;k<2*st.m;k++){
+      const ph = (st.sin ? (k*Math.PI/st.m) : ((2*k+1)*Math.PI/(2*st.m)));
+      const pts=[]; for(let a=0;a<=180;a+=2) pts.push(pointOnSphere(a*Math.PI/180, ph, R*1.004));
+      nodeGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), m));
+    }
+  }
+  nodeGroup.visible = st.nodes;
+}
+
+function updateField(){
+  const col = geo.attributes.color.array, pos = geo.attributes.position.array;
+  const vals = new Float32Array(nVerts); let maxAbs=1e-9;
+  for(let i=0;i<nVerts;i++){
+    const v = harmonic(st.l, st.m, vTheta[i], vPhi[i], st.sin);
+    vals[i]=v; if(Math.abs(v)>maxAbs) maxAbs=Math.abs(v);
+  }
+  const amp = 0.28;
+  for(let i=0;i<nVerts;i++){
+    const nv = vals[i]/maxAbs;
+    const c = divColor(nv);
+    col[3*i]=c[0]; col[3*i+1]=c[1]; col[3*i+2]=c[2];
+    const scale = st.relief ? (1 + amp*nv) : 1;
+    pos[3*i]   = basePos[3*i]  *scale;
+    pos[3*i+1] = basePos[3*i+1]*scale;
+    pos[3*i+2] = basePos[3*i+2]*scale;
+  }
+  geo.attributes.color.needsUpdate = true;
+  geo.attributes.position.needsUpdate = true;
+  geo.computeVertexNormals();
+  buildNodes();
+  drawMap(maxAbs);
+  updateReadout();
+}
+
+/* ---------- flat map ---------- */
+const mapCanvas = document.getElementById('mapCanvas');
+const mctx = mapCanvas.getContext('2d');
+const MW=360, MH=180;
+function drawMap(maxAbs){
+  const img = mctx.createImageData(MW, MH);
+  for(let j=0;j<MH;j++){
+    const theta = (j+0.5)/MH*Math.PI;          // colatitude 0..π (top = north pole)
+    for(let i=0;i<MW;i++){
+      const phi = (i+0.5)/MW*2*Math.PI;
+      const v = harmonic(st.l, st.m, theta, phi, st.sin)/maxAbs;
+      const c = divColor(v); const k=4*(j*MW+i);
+      img.data[k]=c[0]*255; img.data[k+1]=c[1]*255; img.data[k+2]=c[2]*255; img.data[k+3]=255;
+    }
+  }
+  mctx.putImageData(img,0,0);
+  if(st.nodes){
+    mctx.strokeStyle='rgba(242,193,78,0.95)'; mctx.lineWidth=1;
+    latitudeRoots(st.l, st.m).forEach(th=>{
+      const y=th/Math.PI*MH; mctx.beginPath(); mctx.moveTo(0,y); mctx.lineTo(MW,y); mctx.stroke();
+    });
+    if(st.m>0){
+      for(let k=0;k<2*st.m;k++){
+        const ph = st.sin ? (k*Math.PI/st.m) : ((2*k+1)*Math.PI/(2*st.m));
+        const x=ph/(2*Math.PI)*MW; mctx.beginPath(); mctx.moveTo(x,0); mctx.lineTo(x,MH); mctx.stroke();
+      }
+    }
+  }
+}
+
+/* ---------- readout ---------- */
+function updateReadout(){
+  const {l,m}=st;
+  const kEl=document.getElementById('klass'), sEl=document.getElementById('klassSub');
+  let kind,sub,cls;
+  if(m===0){ kind='Zonal'; sub='depends on latitude only — bands parallel to the equator'; cls='zonal'; }
+  else if(m===l){ kind='Sectoral'; sub='depends on longitude only — wedges like orange slices'; cls='sectoral'; }
+  else { kind='Tesseral'; sub='varies in both latitude and longitude — a checkerboard'; cls='tesseral'; }
+  kEl.textContent=kind; kEl.className='klass '+cls; sEl.textContent=sub;
+
+  const ang = st.sin && m>0 ? 'sin('+m+'φ)' : 'cos('+m+'φ)';
+  document.getElementById('formula').innerHTML =
+    'Y<sub>'+l+'</sub><sup>'+m+'</sup>(θ,φ) = P<sub>'+l+'</sub><sup>'+m+'</sup>(cos θ)·'+ang;
+  document.getElementById('fPar').textContent = (l-m);
+  document.getElementById('fMer').textContent = m;
+
+  const wl = Math.round(180/(l||1)), km = l? (40000/(2*l)).toFixed(0) : '∞';
+  document.getElementById('scaleNote').innerHTML =
+    'Degree ℓ sets the <b>spatial scale</b>: features about <b>'+wl+'° across</b> (≈ '+km+
+    ' km on Earth). Raising ℓ adds finer structure — and that is exactly the part of a real field that '+
+    '<b>fades fastest with altitude</b>, which is why upward continuation acts as a low-pass filter (foreshadowing M6.5).';
+}
+
+/* ---------- interaction ---------- */
+const rot = {x:0.35, y:0.6};
+let dragging=false, px=0, py=0;
+canvas.addEventListener('pointerdown', e=>{dragging=true; px=e.clientX; py=e.clientY; canvas.setPointerCapture(e.pointerId);});
+canvas.addEventListener('pointermove', e=>{
+  if(!dragging) return;
+  rot.y += (e.clientX-px)*0.008; rot.x += (e.clientY-py)*0.008;
+  rot.x = Math.max(-1.3, Math.min(1.3, rot.x)); px=e.clientX; py=e.clientY;
+});
+canvas.addEventListener('pointerup', ()=>dragging=false);
+canvas.addEventListener('pointerleave', ()=>dragging=false);
+
+function setL(v){ st.l=Math.max(0,Math.min(8,v)); if(st.m>st.l) st.m=st.l; syncSteppers(); updateField(); }
+function setM(v){ st.m=Math.max(0,Math.min(st.l,v)); syncSteppers(); updateField(); }
+function syncSteppers(){
+  document.getElementById('lVal').textContent=st.l;
+  document.getElementById('mVal').textContent=st.m;
+  document.getElementById('lMinus').disabled = st.l<=0;
+  document.getElementById('lPlus').disabled  = st.l>=8;
+  document.getElementById('mMinus').disabled = st.m<=0;
+  document.getElementById('mPlus').disabled  = st.m>=st.l;
+  const ph=document.getElementById('tPhase');
+  ph.classList.toggle('disabled', st.m===0);
+}
+document.getElementById('lMinus').onclick=()=>setL(st.l-1);
+document.getElementById('lPlus').onclick =()=>setL(st.l+1);
+document.getElementById('mMinus').onclick=()=>setM(st.m-1);
+document.getElementById('mPlus').onclick =()=>setM(st.m+1);
+
+function bindToggle(id, key, after){
+  const el=document.getElementById(id);
+  const fire=()=>{ st[key]=!st[key]; el.setAttribute('aria-pressed', st[key]); if(after) after(); };
+  el.addEventListener('click', fire);
+  el.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault(); fire();} });
+}
+bindToggle('tRelief','relief', updateField);
+bindToggle('tNodes','nodes', ()=>{ nodeGroup.visible=st.nodes; drawMap(currentMaxAbs()); });
+bindToggle('tGrid','grid', ()=>{ gridGroup.visible=st.grid; });
+bindToggle('tPhase','sin', ()=>{ if(st.m===0){st.sin=false; document.getElementById('tPhase').setAttribute('aria-pressed',false); return;} updateField(); });
+bindToggle('tSpin','spin', ()=>{});
+function currentMaxAbs(){ let mx=1e-9; for(let i=0;i<nVerts;i++){const v=Math.abs(harmonic(st.l,st.m,vTheta[i],vPhi[i],st.sin)); if(v>mx)mx=v;} return mx; }
+
+/* ---------- resize + loop ---------- */
+function resize(){
+  const r=document.getElementById('stage').getBoundingClientRect();
+  renderer.setSize(r.width, r.height, false);
+  camera.aspect = r.width/r.height; camera.updateProjectionMatrix();
+}
+window.addEventListener('resize', resize);
+
+function animate(){
+  requestAnimationFrame(animate);
+  if(st.spin && !dragging) rot.y += 0.0025;
+  worldGroup.rotation.x = rot.x; worldGroup.rotation.y = rot.y;
+  renderer.render(scene, camera);
+}
+
+buildGraticule();
+syncSteppers();
+updateField();
+resize();
+animate();
+</script>
+</body>
+</html>

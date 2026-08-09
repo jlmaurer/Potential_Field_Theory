@@ -24,6 +24,10 @@ Geophys5432_Lecture_Checklist.*
 _site/
 _freeze/
 
+# ── GitHub Pages site (hand-written, not Quarto output) ──────────────────────
+!demos/*.html
+!/index.html
+
 # ── Python environment ───────────────────────────────────────────────────────
 .venv/
 __pycache__/
